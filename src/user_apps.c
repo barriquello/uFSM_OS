@@ -10,6 +10,7 @@
 #include "uFSMrtos.h"
 
 #include "install_apps.h"
+#undef DEFINE_U_VARIABLES
 #include "u_xmacro.h"
 #include "u_sem_xmacro.h"
 
@@ -51,7 +52,7 @@ U_TASK(mutex_test)
   U_END();
 }
 
-U_TIMER_CALLBACK(timer_delay_test_cb)
+U_TIMER(timer_delay_test_cb)
 {
 	U_PRINTF("Test timer ok! \n");
 	U_TASK_RESUME_FROM_CB(do_tests);
@@ -61,12 +62,11 @@ U_TIMER_CALLBACK(timer_delay_test_cb)
 U_TASK(timer_delay_test)
 {
 
-  static u_timer_t timer;
   U_BEGIN();
 
    for(;;){
 
-      Timer_SetCallBack(&timer, 100, timer_delay_test_cb);
+      TIMER_START(100, timer_delay_test_cb);
       U_TASK_SUSPEND();
    }
 
@@ -218,4 +218,9 @@ U_TASK(do_tests)
 	  U_END();
 }
 
+
+U_TIMER(function_timer)
+{
+	return 10;
+}
 

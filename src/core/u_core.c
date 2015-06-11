@@ -48,8 +48,8 @@ U_EXTERN const U_PRIORITYLIST u_prio_mask[]=
 U_EXTERN u08 u_priority_list[MAX_NUM_U_TASKS];
 U_EXTERN U_PRIORITYLIST u_ready_list; /* List of Ready Priorities */
  
-U_EXTERN volatile u08 u_curr; /* current pt */
-U_EXTERN volatile u08 u_next; /* next pt */
+U_EXTERN volatile u08 u_curr; /* current utask */
+U_EXTERN volatile u08 u_next; /* next utask */
 U_EXTERN u08 U_STACK[U_STACK_SIZE];	/** stack task */
 
 

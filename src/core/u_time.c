@@ -24,8 +24,8 @@ static u_tmr u_tmr_ping, u_tmr_pong;    /* Timer lists */
 /* local functions */
 /* Binary heap of timers */
 #define PAI(i)      (u08)(i>>1)
-#define LEFT(i)     (u08)((i<<1) + 1)
-#define RIGHT(i)    (u08)((i<<1) + 2)
+#define LEFT(i)     (u08)((i<<1))
+#define RIGHT(i)    (u08)((i<<1) + 1)
 
 
 static void HeapUp (u_timer* timers, u08 i)
@@ -143,11 +143,12 @@ void Timer_Pend(u_task* u, u_timer s, u16 time_wait)
       U_ExitCritical();
 }
 
-void Timer_SetCallBack(u_timer s, u16 time_wait, u_timercb cb)
+#if 1
+void Timer_Start(u_timer s, u16 time_wait)
 {
-	 s->func_cb = cb;
 	 u_timer_set(s,time_wait);
 }
+#endif
 
 void u_time_manager(void)
 {
@@ -157,7 +158,6 @@ void u_time_manager(void)
 	u_tmr* 	   list_tmp;
 	u_tick_t   repeat;
 	u32   	   timeout;
-	u08		   run_scheduler = 0;
 	u_tick_t   tickcount = u_tick_counter_get();
 
 timer_loop:
@@ -166,10 +166,11 @@ timer_loop:
 
 	while(p != NULL && p->timeout <= tickcount)
 	{
+
 		/*  some timer has expired */
-		if(p->func_cb != NULL) /*  is it a callback timer ? */
+		if(p->u_id > MAX_ID && U_TMR[(p->u_id - MAX_ID-1)].cb != NULL) /*  is it a callback timer ? */
 		{
-			repeat = (u_tick_t)((p)->func_cb()); /* execute callback */
+			repeat = (u_tick_t)(U_TMR[p->u_id - MAX_ID-1].cb()); /* execute callback */
 			if (repeat > 0)
 			{ /* needs to repeat after "repeat" time ? */
 			  timeout = (u32)((u32)tickcount + (u32)repeat);
@@ -201,13 +202,11 @@ timer_loop:
 				U_EnterCritical();
 					SET_READYLIST_PRIO(U_TCB[p->u_id].arg->prio);
 				U_ExitCritical();
-
-				run_scheduler = 1;
 			}
 
 			remove_timer:
 				p->timeout = 0;
-				p->func_cb = NULL;
+				//p->func_cb = NULL;
 				list->timers[1]=list->timers[list->count]; // remove from current list
 				list->timers[list->count] = NULL;
 				list->count--;
@@ -235,14 +234,6 @@ timer_loop:
         goto timer_loop;
       }
     }
-
-    if(run_scheduler)
-    {
-        U_EnterCritical();
-        U_SCHEDULER();
-        U_ExitCritical();
-    }
-
 }
 
 

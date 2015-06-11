@@ -118,8 +118,6 @@ typedef struct{
 										if(!(cond)) {return;}   \
 									  } while(0)
 
-/* adaptation for protothreads library */
-
 #define U_TASK_INFO(name)  u08 name##_id(u08 id)	\
 { static u08 u_id = 0; if(id != 0) {u_id = id;} return u_id; }
 
@@ -133,6 +131,8 @@ typedef struct{
 #define U_NO_START				0
 
 #define U_GET_TASK_ID(name) 		(name##_id)(0)
+
+
 
 /**
  * "Preemption point" for the utask.

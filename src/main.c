@@ -26,6 +26,7 @@
 #define DEFINE_U_VARIABLES
 #include "u_xmacro.h"
 #include "u_sem_xmacro.h"
+#undef DEFINE_U_VARIABLES
 
 u_mutex mutex_a, mutex_b;
 
@@ -40,7 +41,7 @@ int main(void)
 
   U_INIT();  /* Initialize core variables */
   
-  /* Initialize the utasks with U_TASK_INIT(). */
+  /* Initialize the utasks and timers with U_TASK_INIT(). */
   #include "u_init_xmacro.h"
   
   /* Initialize the semaphores with U_SEM_INIT(). */
