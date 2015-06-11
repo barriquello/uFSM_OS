@@ -6,7 +6,9 @@
  *
  */
 
-
+ #include "u_config.h" 
+ #if PLATFORM == WIN32
+ 
 #ifndef U_PORT_H_
 #define U_PORT_H_
 
@@ -45,3 +47,5 @@ typedef u16 	U_PRIORITYLIST;
 #define u_assert(e)  	do{assert((e));}while(0);
 
 #endif /* U_PORT_H_ */
+
+#endif

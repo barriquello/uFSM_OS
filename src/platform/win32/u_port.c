@@ -5,7 +5,9 @@
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-
+ #include "platform_conf.h"
+ #if PLATFORM == WIN32
+ 
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -54,5 +56,6 @@ void TickTimer(void)
   U_INT_EXIT();
 
 }
+#endif
 
 

@@ -11,7 +11,6 @@
 #define __U_CORE_H__
 
 #include "lc.h"
-#include "u_port.h"
 #include "u_config.h"
 #include "u_assert.h"
 
