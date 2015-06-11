@@ -1,0 +1,10 @@
+ #define SEM_EXPAND_AS_INIT(a,b) U_SEM_INIT(&a,b);
+ U_SEM_TABLE(SEM_EXPAND_AS_INIT)
+
+
+
+
+
+
+
+
