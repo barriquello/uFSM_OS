@@ -1,3 +1,10 @@
+/**
+ * \file main.c
+ * Entry point, system initialization
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
 
 /* We must always include uFSMrtos.h in our utasks code. */
 #include "uFSMrtos.h"
@@ -25,16 +32,14 @@
 
 u_mutex mutex_a, mutex_b;
 
-//u_timer timer_test;
-
 
 /* Compile-time error checking */
 #define U_ASSERT_FN
 #include "u_assert.h"
 
 
-int main(void) {
-  
+int main(void)
+{
 
   U_INIT();  /* Initialize core variables */
   
@@ -44,9 +49,10 @@ int main(void) {
   /* Initialize the semaphores with U_SEM_INIT(). */
   #include "u_init_sem_xmacro.h"
   
+  /* Initialize the a mutex with U_MUTEX_INIT(). */
   U_MUTEX_INIT(&mutex_a,9);
  
-  /* Then we run the utasks by priority, forever */
+  /* Then we run the utasks using priority scheduling, forever */
   U_RUN();
    
   return 0;

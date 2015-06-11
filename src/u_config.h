@@ -1,8 +1,9 @@
-/*
- * u_config.h
+/**
+ * \file u_config.h
+ * System configuration
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
- *  Created on: 07/06/2015
- *      Author: Gisele
  */
 
 #ifndef U_CONFIG_H_

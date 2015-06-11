@@ -1,3 +1,11 @@
+/**
+ * \file u_time.c
+ * System Time and Timer Services
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
+
 #include "u_core.h"
 #include "u_time.h"
 

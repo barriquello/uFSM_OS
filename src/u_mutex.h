@@ -1,7 +1,6 @@
- 
 /**
- * \file
- * Counting mutexes implemented on protothreads
+ * \file u_mutex.h
+ * Counting mutexes, with priority ceiling protocol
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *

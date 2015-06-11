@@ -1,12 +1,21 @@
 
+/**
+ * \file u_core.h
+ * System core functions
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
+
 #ifndef __U_CORE_H__
 #define __U_CORE_H__
 
-#include "string.h"
 #include "lc.h"
 #include "u_port.h"
 #include "u_config.h"
 #include "u_assert.h"
+
+#include <string.h>
 
 #ifndef NULL
 #define NULL  (void*)0

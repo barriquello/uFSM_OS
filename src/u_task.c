@@ -1,8 +1,9 @@
-/*
- * u_task.h
+/**
+ * \file
+ * System tasks
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
- *  Created on: 06/06/2015
- *      Author: Gisele
  */
 
 #ifndef U_TASK_C_

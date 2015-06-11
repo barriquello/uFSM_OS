@@ -1,3 +1,11 @@
+/**
+ * \file u_assert.h
+ * Implementation of static assertions
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
+
 #ifndef __U_ASSERT_H__
 #define __U_ASSERT_H__
 
@@ -29,7 +37,7 @@ void compile_time_assertions(void);
 
 void compile_time_assertions(void)
 {
-    COMPILE_TIME_ASSERT_FN((NUM_PT <= MAX_NUM_PT));  /* check max pt. number */
+    COMPILE_TIME_ASSERT_FN((U_NUM_TASKS <= MAX_NUM_U_TASKS));  /* check max utasks number */
 }
 #pragma pop /* constant switch expression */
 #endif

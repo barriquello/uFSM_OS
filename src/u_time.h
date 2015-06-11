@@ -1,6 +1,6 @@
 /**
- * \file
- * Timers implemented for utasks
+ * \file u_time.h
+ * System Time and Timer Services
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *

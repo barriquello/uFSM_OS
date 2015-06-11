@@ -1,10 +1,10 @@
-/*
- * u_port.c
+/**
+ * \file u_port.c
+ * Platform dependent code
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
- *  Created on: 07/06/2015
- *      Author: Gisele
  */
-
 
 #ifdef _WIN32
 #include <windows.h>

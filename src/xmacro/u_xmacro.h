@@ -1,3 +1,11 @@
+/**
+ * \file u_xmacro.h
+ * Xmacro implementation
+ * See: http://en.wikipedia.org/wiki/X_Macro
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
 
 #ifdef DEFINE_U_VARIABLES
 #undef  U_EXTERN

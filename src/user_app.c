@@ -1,8 +1,13 @@
-/* We must always include u_core.h in our code. */
-#include "u_core.h"
-#include "u_sem.h"
-#include "u_mutex.h"
-#include "u_time.h"
+/**
+ * \file user_app.c
+ * Example utasks, demo code, testing utasks
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
+
+/* We must always include uFSMrtos.h in our code. */
+#include "uFSMrtos.h"
 
 
 /* For printf(). */

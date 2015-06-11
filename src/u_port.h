@@ -1,15 +1,17 @@
-/*
- * u_port.h
+/**
+ * \file u_port.h
+ * Platform dependent code
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
- *  Created on: 07/06/2015
- *      Author: Gisele
  */
+
 
 #ifndef U_PORT_H_
 #define U_PORT_H_
 
 
-/* hardware dependent code - must be ported */
+/* hardware dependent code */
 #define configTICK_RATE_HZ    	  1000
 
 #define TICKTIMER_INT_HANDLER()

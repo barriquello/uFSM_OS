@@ -1,7 +1,7 @@
  
 /**
- * \file
- * Counting semaphores implemented on uFSMrtos
+ * \file u_sem.h
+ * Counting semaphores
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *

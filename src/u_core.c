@@ -1,9 +1,13 @@
+/**
+ * \file u_core.c
+ * System core functions
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
 
 #define DEFINE_U_CORE_VARIABLES
-#include "u_core.h"
-#include "u_sem.h" /* semaphores services */
-#include "u_mutex.h"
-#include "u_time.h"
+#include "uFSMrtos.h"
 
 
 #if (U_SCHED_OPT == 1)

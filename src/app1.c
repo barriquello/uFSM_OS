@@ -1,8 +1,9 @@
-/*
- * app1.c
+/**
+ * \file app1.c
+ * App demo code
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
- *  Created on: 10/06/2015
- *      Author: Gisele
  */
 
 #include "uFSMrtos.h"

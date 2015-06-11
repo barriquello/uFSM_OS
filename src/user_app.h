@@ -1,3 +1,12 @@
+/**
+ * \file user_app.c
+ * Example of table for creating utasks, semaphores, timers, etc... using xmacros.
+ * See: http://en.wikipedia.org/wiki/X_Macro
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
+ *
+ */
+
 /* Table used to declare utasks state variables, functions and priorities */
 #define U_TASK_TABLE(ENTRY)           						  \
 	    ENTRY(suspend_resume_test,lc_resume,5, U_START,0)  	  \
