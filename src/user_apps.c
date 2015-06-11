@@ -9,7 +9,7 @@
 /* We must always include uFSMrtos.h in our code. */
 #include "uFSMrtos.h"
 
-#include "user_app.h"   
+#include "install_apps.h"
 #include "u_xmacro.h"
 #include "u_sem_xmacro.h"
 

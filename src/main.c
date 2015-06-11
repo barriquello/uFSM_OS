@@ -17,10 +17,11 @@
 /**
  * Finally, we have the main loop. Here is where the utasks are
  * initialized and scheduled. First, however, we define the
- * utask state variables, functions and priorities  in the "U_TASK_TABLE".
+ * utask state variables, functions and priorities  in the "U_TASK_TABLE"
+ * by including 'install_apps.h".
  */
 
-#include "user_app.h"       
+#include "install_apps.h"
 
 #define DEFINE_U_VARIABLES
 #include "u_xmacro.h"

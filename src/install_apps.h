@@ -1,5 +1,5 @@
 /**
- * \file user_app.c
+ * \file install_apps
  * Example of table for creating utasks, semaphores, timers, etc... using xmacros.
  * See: http://en.wikipedia.org/wiki/X_Macro
  * \author
