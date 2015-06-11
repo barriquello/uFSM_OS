@@ -17,6 +17,13 @@
 
 #include <string.h>
 
+#if U_DEBUG_PRINTF == 1
+#include <stdio.h>
+#define U_PRINTF(...)	printf(__VA_ARGS__); fflush(stdout);
+#else
+#define U_PRINTF(...)	do{}while(0);
+#endif
+
 #ifndef NULL
 #define NULL  (void*)0
 #endif

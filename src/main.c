@@ -14,10 +14,6 @@
  extern "C"
 #endif
 
-// #include <stdio.h> /* For printf(). */
-#define printf(x)  do{ }while(0);
-
-
 /**
  * Finally, we have the main loop. Here is where the utasks are
  * initialized and scheduled. First, however, we define the

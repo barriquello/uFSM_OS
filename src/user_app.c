@@ -9,16 +9,11 @@
 /* We must always include uFSMrtos.h in our code. */
 #include "uFSMrtos.h"
 
-
-/* For printf(). */
-#include <stdlib.h>
-#include <stdio.h>
-//#define printf(x)  do{ }while(0);
-
 #include "user_app.h"   
 #include "u_xmacro.h"
 #include "u_sem_xmacro.h"
 
+#include <stdlib.h>
 
 U_TASK(suspend_resume_test)
 {
@@ -29,7 +24,7 @@ U_TASK(suspend_resume_test)
    {
 	  /* Suspend itself */
 	  U_TASK_SUSPEND();
-      printf("Test suspend/resume ok! \n");
+	  U_PRINTF("Test suspend/resume ok! \n");
    }
    /* All utask end with U_END() */
    U_END();
@@ -47,7 +42,7 @@ U_TASK(mutex_test)
    for(;;){
     
       U_MUTEX_ACQUIRE(&mutex_a);
-        printf("Test mutex acquire/release ok! \n");
+      	U_PRINTF("Test mutex acquire/release ok! \n");
         a_global++;
       U_MUTEX_RELEASE(&mutex_a);
       U_TASK_SUSPEND();
@@ -58,7 +53,7 @@ U_TASK(mutex_test)
 
 U_TIMER_CALLBACK(timer_delay_test_cb)
 {
-	printf("Test timer ok! \n");
+	U_PRINTF("Test timer ok! \n");
 	U_TASK_RESUME_FROM_CB(do_tests);
 	return 0;
 }
@@ -93,10 +88,10 @@ U_TASK(task_delay_test)
 	   time_now = u_clock_get() - time_now;
 	   if(time_now == 100)
 	   {
-		   printf("Test delay ok! \n");
+		   U_PRINTF("Test delay ok! \n");
 	   }else
 	   {
-		   printf("Test delay fail! \n");
+		   U_PRINTF("Test delay fail! \n");
 	   }
 	   U_TASK_RESUME(do_tests);
 	   U_TASK_SUSPEND();
@@ -128,7 +123,7 @@ U_TASK(task_stack_test)
 	   u_assert(i==1001);
 	   u_assert(s.a==333);
 	   u_assert(s.c=='a');
-	   printf("Test stack ok! \n");
+	   U_PRINTF("Test stack ok! \n");
 	   U_TASK_RESUME(do_tests);
        U_TASK_SUSPEND();
    }
@@ -150,7 +145,7 @@ U_TASK(do_tests)
 		   {
 			   /* test resume */
 			   U_TASK_RESUME(suspend_resume_test);
-			   printf("Test resume ok! \n");
+			   U_PRINTF("Test resume ok! \n");
 		   }
 		   ++tests;
 
@@ -159,7 +154,7 @@ U_TASK(do_tests)
 			   /* test sem pend and post */
 			   U_SEM_POST(&semtest);
 			   U_SEM_PEND(&semtest_ok);
-			   printf("Test sem ok! \n");
+			   U_PRINTF("Test sem ok! \n");
 		   }
 		   ++tests;
 
@@ -173,10 +168,10 @@ U_TASK(do_tests)
 
 			  if(a_global == 1)
 			  {
-				  printf("Test mutex ok! \n");
+				  U_PRINTF("Test mutex ok! \n");
 			  }else
 			  {
-				  printf("Test mutex failed! \n");
+				  U_PRINTF("Test mutex failed! \n");
 			  }
 
 		   }
@@ -212,7 +207,6 @@ U_TASK(do_tests)
 
 		   if(tests >= 	ALL_TESTS)
 		   {
-			   fflush(stdout);
 			   while(1)
 			   {
 				   exit(0);

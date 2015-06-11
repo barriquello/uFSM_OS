@@ -8,7 +8,6 @@
 
 #include "uFSMrtos.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 extern u_sem semtest;
 extern u_sem semtest_ok;
@@ -24,7 +23,7 @@ U_TASK(sem_test)
 
     /* Wait a semaphore post */
     U_SEM_PEND(&semtest);
-    	printf("Test sem pend/post ok! \n");
+    	U_PRINTF("Test sem pend/post ok! \n");
     U_SEM_POST(&semtest_ok);
 
     /* And we loop. */
