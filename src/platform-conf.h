@@ -31,21 +31,20 @@
  * Author: Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-/**
- * \file uFSMrtos.h
- * System includes
- * \author
- * Carlos H. Barriquello <barriquello@gmail.com>
+/*
+ * platform_conf.h
  *
  */
 
-#ifndef UFSMRTOS_H_
-#define UFSMRTOS_H_
+#ifndef PLATFORM_CONF_H_
+#define PLATFORM_CONF_H_
 
-#include "u-core.h"
-#include "u-sem.h" /* semaphores services */
-#include "u-time.h" /* time and timer services */
-#include "u-mutex.h" /* mutexes services */
+#include "platforms.h"
+#define  PLATFORM 	WIN32
 
+#if PLATFORM == WIN32
+#include "win32/u-port.h"
 #endif
 
+
+#endif /* PLATFORM_CONF_H_ */

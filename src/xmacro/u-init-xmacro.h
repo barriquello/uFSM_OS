@@ -32,20 +32,25 @@
  *
  */
 /**
- * \file uFSMrtos.h
- * System includes
+ * \file u_init_xmacro.h
+ * Xmacro implementation
+ * See: http://en.wikipedia.org/wiki/X_Macro
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
+#define EXPAND_AS_INIT(a,c,d,e) U_TASK_INIT(a,&(LC_VAR(a)),c,d,e);
+U_TASK_TABLE(EXPAND_AS_INIT)
+ 
 
-#ifndef UFSMRTOS_H_
-#define UFSMRTOS_H_
-
-#include "u-core.h"
-#include "u-sem.h" /* semaphores services */
-#include "u-time.h" /* time and timer services */
-#include "u-mutex.h" /* mutexes services */
-
+#if TIMERS_TABLE_EN == 1
+#define EXPAND_AS_TIMER_INIT(a,c,d)   U_TIMER_INIT(&(LC_VAR(a)),a,c);
+U_TIMER_TABLE(EXPAND_AS_TIMER_INIT)
 #endif
+
+#define SEM_EXPAND_AS_INIT(a,b) U_SEM_INIT(&a,b);
+ U_SEM_TABLE(SEM_EXPAND_AS_INIT)
+
+
+
 

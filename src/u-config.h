@@ -32,20 +32,24 @@
  *
  */
 /**
- * \file uFSMrtos.h
- * System includes
+ * \file u_config.h
+ * System configuration
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef UFSMRTOS_H_
-#define UFSMRTOS_H_
+#ifndef U_CONFIG_H_
+#define U_CONFIG_H_
 
-#include "u-core.h"
-#include "u-sem.h" /* semaphores services */
-#include "u-time.h" /* time and timer services */
-#include "u-mutex.h" /* mutexes services */
+#include "platform-conf.h"
 
-#endif
+#define U_SCHED_OPT     		1
+#define U_IDLE()
+#define U_INT_NEST_ENABLE       0
+#define U_STACK_SIZE  			256
+#define U_DEBUG_PRINTF			1
+#define U_MAX_NUM_TASKS			32
+#define U_STATIC_TIMERS			2
 
+#endif /* U_CONFIG_H_ */

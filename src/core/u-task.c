@@ -32,20 +32,37 @@
  *
  */
 /**
- * \file uFSMrtos.h
- * System includes
+ * \file
+ * System tasks
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef UFSMRTOS_H_
-#define UFSMRTOS_H_
+#ifndef U_TASK_C_
+#define U_TASK_C_
 
 #include "u-core.h"
-#include "u-sem.h" /* semaphores services */
-#include "u-time.h" /* time and timer services */
-#include "u-mutex.h" /* mutexes services */
 
-#endif
 
+/******************* idle ***************/
+/* this is the lowest priority task */
+/* it can be used for background work */
+U_TASK(u_idle)
+{
+  U_IDLE();
+  return;
+}
+
+/******************* main task ***************/
+/* this is the highest priority task */
+/* it can be used for instance to emulate interrupts */
+U_TASK(u_main_task)
+{
+	TickTimer();
+	return;
+}
+
+
+
+#endif /* U_TASK_C_ */

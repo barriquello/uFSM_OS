@@ -32,20 +32,62 @@
  *
  */
 /**
- * \file uFSMrtos.h
- * System includes
+ * \file u_port.c
+ * Platform dependent code
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-
-#ifndef UFSMRTOS_H_
-#define UFSMRTOS_H_
+ #include "platform-conf.h"
+ #if PLATFORM == WIN32
+ 
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 #include "u-core.h"
-#include "u-sem.h" /* semaphores services */
-#include "u-time.h" /* time and timer services */
-#include "u-mutex.h" /* mutexes services */
+#include "u-time.h"
 
+static unsigned long long last_time = 0;
+
+int port_timer_win(void)
+{
+	unsigned long long time;
+	unsigned long long time_diff;
+
+	time = GetTickCount();
+	time_diff = time - last_time;
+	last_time = time;
+
+	u_clock_set(u_clock_get() + time_diff/10);
+	if(time_diff > 0)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+void TickTimerInit(void)
+{
+	last_time = GetTickCount();
+}
+
+void TickTimer(void)
+{
+  U_INT_ENTER();
+
+  TICKTIMER_INT_HANDLER();
+
+  U_NESTING_ENABLE();
+
+  if(port_timer_win() == 1)
+  {
+	  u_tick_counter_inc(); /* increment tick counter */
+  }
+
+  U_INT_EXIT();
+
+}
 #endif
+
 

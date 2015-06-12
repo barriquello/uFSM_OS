@@ -57,7 +57,7 @@
 #ifndef __LC_SWITCH_H__
 #define __LC_SWITCH_H__
 
-#include "u_assert.h"
+#include "u-assert.h"
 
 /* WARNING! lc implementation using switch() does not work if an
    LC_SET() is done within another switch() statement! */
@@ -65,7 +65,7 @@
 /** \hideinitializer */
 
 
-#define LC_INIT(s) s = 0;
+#define LC_INIT(s) 	s = 0;
 
 #define LC_RESUME(s) switch(s) { case 0:
 
