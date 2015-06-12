@@ -143,12 +143,10 @@ void Timer_Pend(u_task* u, u_timer s, u16 time_wait)
       U_ExitCritical();
 }
 
-#if 1
 void Timer_Start(u_timer s, u16 time_wait)
 {
 	 u_timer_set(s,time_wait);
 }
-#endif
 
 void u_time_manager(void)
 {

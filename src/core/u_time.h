@@ -21,13 +21,6 @@ typedef u16 (*u_timercb)(void);
 
 #define U_TIMER_CALLBACK(cb)		u16 (cb)(void); u16 (cb)(void)
 
-typedef struct
-{
-    u16    	   timeout;
-    u08 	   u_id;
-}u_timer_t;
-
-
 typedef  u_timer_t*  u_timer;
 
 typedef struct {
@@ -35,13 +28,29 @@ typedef struct {
 	u_timer    timer;
 }c_timer_t;
 
-#define U_MAX_NUM_TIMERS 	    16
 #define TICK_COUNT_OVERFLOW 	64000
 #define TIMER_MAX_COUNTER       (u_tick_t)(TICK_COUNT_OVERFLOW-1)
 
+#include "install_apps.h"
+
+#define _EXPAND_AS_STRUCT(a,c,d,e) 	 u08 a;
+#define _EXPAND_AS_TIMERSTRUCT(a,c,d) u08 a;
+
+typedef struct{
+    U_TASK_TABLE(_EXPAND_AS_STRUCT)
+} time_size_struct_t;
+
+typedef struct
+{
+    U_TIMER_TABLE(_EXPAND_AS_TIMERSTRUCT)
+} timer_size_struct_t;
+
+
+#define U_NUM_TIMERS_INSTALL  (sizeof(timer_size_struct_t) + (sizeof(time_size_struct_t)+1))
+
 /* timers list data struct */  
 typedef struct{    
-	u_timer    timers [U_MAX_NUM_TIMERS];
+	u_timer    timers [U_NUM_TIMERS_INSTALL + U_STATIC_TIMERS];
     u08    	   count;
 }u_tmr;
 
@@ -77,6 +86,14 @@ void Timer_Start(u_timer s, u16 time_wait);
         U_SCHEDULER();                          \
         U_ExitCritical();                     	\
         U_PREEMP_POINT(u);
+
+#define U_TASK_DELAY(t)	                        \
+		Timer_Pend(u,&((u)->tmr),t)             \
+        U_EnterCritical();                    	\
+        U_SCHEDULER();                          \
+        U_ExitCritical();                     	\
+        U_PREEMP_POINT(u);
+
 
 #endif /* __PT_TIME_H__ */
 

@@ -93,6 +93,17 @@ U_TASK(task_delay_test)
 	   {
 		   U_PRINTF("Test delay fail! \n");
 	   }
+
+	   time_now = u_clock_get();
+	   U_TASK_DELAY(100);
+	   time_now = u_clock_get() - time_now;
+	   if(time_now == 100)
+	   {
+		   U_PRINTF("Test built-in delay ok! \n");
+	   }else
+	   {
+		   U_PRINTF("Test built-in delay fail! \n");
+	   }
 	   U_TASK_RESUME(do_tests);
 	   U_TASK_SUSPEND();
    }

@@ -40,10 +40,16 @@ typedef struct {
   u16   size;
 } u_stack;
 
+typedef struct
+{
+    u16    	   timeout;
+    u08 	   u_id;
+}u_timer_t;
 
 typedef struct {
   lc_t 		 lc;
   prio_t 	 prio;
+  u_timer_t	 tmr;
   u_event    evt;
   u_stack    stk;
 } u_task;
@@ -72,6 +78,7 @@ typedef struct{
 #define MAX_PRIO            	   (MAX_NUM_U_TASKS-1)
 #define MAX_ID            		   (MAX_NUM_U_TASKS-1)
 #define MUTEX_PRIO      	       ((u08)(-2))
+
 
 #define U_SCHEDULER()         	   u_next = u_priority_list[U_Scheduler(u_ready_list)]
 

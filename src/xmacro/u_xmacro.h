@@ -70,12 +70,12 @@ typedef struct
     U_TIMER_TABLE(EXPAND_AS_TIMERSTRUCT)
 } size_timer_struct_t;
 
-#define U_NUM_TIMER  (sizeof(size_timer_struct_t))
+#define U_NUM_TIMERS  (sizeof(size_timer_struct_t))
 
 #define EXPAND_AS_TIMERJUMPTABLE(a,c,d) {a,&(LC_VAR(a))},
 
 /* declare a table of function pointers */ 
-const c_timer_t U_TMR[U_NUM_TIMER] =
+const c_timer_t U_TMR[U_NUM_TIMERS] =
 {
     U_TIMER_TABLE(EXPAND_AS_TIMERJUMPTABLE)
 };
