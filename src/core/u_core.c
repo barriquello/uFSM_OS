@@ -274,6 +274,41 @@ void Sem_Post(u_task* u, u_sem* s)
       TEST_INT_NESTING(U_ExitCritical());
 }
 
+/*---------------------------------------------------------------*/
+void Sem_Pend_Self(u_task* u)
+{
+      U_EnterCritical();
+      if(!((u)->ecnt > 0))
+      {
+    	  (u)->evt = EV_WAIT;
+    	  RESET_READYLIST_PRIO((u)->prio);
+      }else
+      {
+    	  (u)->evt = EV_NONE;
+          --(u)->ecnt;
+      }
+      U_ExitCritical();
+}
+
+/*---------------------------------------------------------------*/
+void Sem_Post_To(u_task* u)
+{
+      (void)u;
+
+      TEST_INT_NESTING(U_EnterCritical());
+
+      if((u)->evt != EV_WAIT)
+      {
+        ++(u)->ecnt;
+      }else
+      {
+    	 (u)->evt = EV_SEM;
+    	 SET_READYLIST_PRIO((u)->prio);
+      }
+
+      TEST_INT_NESTING(U_ExitCritical());
+}
+
 /************************************************/
 
 /**************** mutexes ******************/

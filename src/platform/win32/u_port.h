@@ -40,9 +40,12 @@ typedef int32_t       s32;
 #define U_ExitCritical()
 #define U_Enable_Nesting()  	U_ExitCritical();
 
-
 #include <assert.h>
-#define u_assert(e)  	do{assert((e));}while(0);
+#define u_assert(e)  					 	\
+						do{	if(!(e)) {			\
+							printf("assert fail at %s:%d!\n", __FILE__, __LINE__);}	 \
+							assert((e)); \
+						}while(0);
 
 #endif /* U_PORT_H_ */
 

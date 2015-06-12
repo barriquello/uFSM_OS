@@ -142,9 +142,25 @@ U_TASK(task_stack_test)
   U_END();
 }
 
+U_TASK(sem_builtin_test)
+{
+
+  U_BEGIN();
+
+  for(;;){
+
+    /* Wait a semaphore post */
+    U_SEM_PEND_SELF();
+    	U_PRINTF("Test built-in sem pend/post ok! \n");
+    U_SEM_POST_TO(do_tests); /* test 2 posts */
+    U_SEM_POST_TO(do_tests);
+  }
+
+  U_END();
+}
 
 
-#define ALL_TESTS 	4
+#define ALL_TESTS 	6
 U_TASK(do_tests)
 {
 	   static int tests = 0; /* variables must be defined before U_BEGIN */
@@ -213,6 +229,16 @@ U_TASK(do_tests)
 		   {
 			   U_TASK_RESUME(task_stack_test);
 			   U_TASK_SUSPEND();
+		   }
+		   ++tests;
+
+		   if(tests == 6)
+		   {
+			   /* test built-in sem pend and post */
+			   U_SEM_POST_TO(sem_builtin_test);
+			   U_SEM_PEND_SELF();
+			   U_SEM_PEND_SELF();
+			   U_PRINTF("Test built-in sem ok! \n");
 		   }
 		   ++tests;
 

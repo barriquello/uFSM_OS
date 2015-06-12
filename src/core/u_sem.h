@@ -51,11 +51,19 @@ typedef struct {
  * \hideinitializer
  */
 void Sem_Pend(u_task* u, u_sem* s);
+void Sem_Pend_Self(u_task* u);
   
 #define U_SEM_PEND(s) 	                      \
-        Sem_Pend(u,s);                           \
+        Sem_Pend(u,s);                        \
         U_EnterCritical();                    \
-        U_SCHEDULER();                           \
+        U_SCHEDULER();                        \
+        U_ExitCritical();                     \
+        U_PREEMP_POINT(u);
+
+#define U_SEM_PEND_SELF() 	                  \
+        Sem_Pend_Self(u);                     \
+        U_EnterCritical();                    \
+        U_SCHEDULER();                        \
         U_ExitCritical();                     \
         U_PREEMP_POINT(u);
 
@@ -77,11 +85,19 @@ void Sem_Pend(u_task* u, u_sem* s);
  * \hideinitializer
  */
 void Sem_Post(u_task* u, u_sem* s);
+void Sem_Post_To(u_task* u);
 
 #define U_SEM_POST(s)                           \
         Sem_Post(u,s);                          \
         if(!u_int_nesting){U_EnterCritical();}  \
         U_SCHEDULER();                          \
+        if(!u_int_nesting){U_ExitCritical(); U_PREEMP_POINT(u);}
+
+
+#define U_SEM_POST_TO(name)                     			\
+        Sem_Post_To(U_TASK_GET(U_GET_TASK_ID(name)));       \
+        if(!u_int_nesting){U_EnterCritical();}  			\
+        U_SCHEDULER();                          			\
         if(!u_int_nesting){U_ExitCritical(); U_PREEMP_POINT(u);}
 
        

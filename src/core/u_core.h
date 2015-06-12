@@ -23,6 +23,7 @@
 #define U_PRINTF(...)	do{}while(0);
 #endif
 
+
 #ifndef NULL
 #define NULL  (void*)0
 #endif
@@ -32,7 +33,7 @@ typedef u16 lc_t;
 typedef u08 prio_t;
 
 typedef enum{
-	EV_NONE,EV_TIMER,EV_SEM,EV_MUTEX,EV_MSG
+	EV_NONE,EV_WAIT,EV_TIMER,EV_SEM,EV_MUTEX,EV_MSG
 } u_event;
 
 typedef struct {
@@ -47,11 +48,12 @@ typedef struct
 }u_timer_t;
 
 typedef struct {
-  lc_t 		 lc;
-  prio_t 	 prio;
-  u_timer_t	 tmr;
-  u_event    evt;
-  u_stack    stk;
+  lc_t 		 lc;  /* local continuation */
+  prio_t 	 prio;	/* priority */
+  u_timer_t	 tmr;	/* built-in timer */
+  u_event    evt;	/* built-in event */
+  u08		 ecnt;	/* built-in semaphore */
+  u_stack    stk;	/* built-in stack */
 } u_task;
 
 typedef union
