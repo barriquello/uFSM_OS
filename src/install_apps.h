@@ -14,7 +14,7 @@
 		ENTRY(mutex_test,3,U_NO_START,0)      		  \
 		ENTRY(timer_delay_test,4,U_NO_START,0)        \
 		ENTRY(task_delay_test,6,U_NO_START,0)         \
-		ENTRY(task_stack_test,7,U_NO_START,10)        \
+		ENTRY(task_stack_test,21,U_NO_START,10)        \
         ENTRY(do_tests,1, U_START,0)
 
 /* Table used to declare semaphores */

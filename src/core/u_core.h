@@ -48,6 +48,14 @@ typedef struct {
   u_stack    stk;
 } u_task;
 
+typedef union
+{
+	 u16 w[2];
+	 u08 b[4];
+	 u32 dw;
+}u32_t;
+
+typedef u32_t U_PRIORITYLIST;
 
 
 typedef void (*u_task_ptr)(void);
@@ -60,7 +68,6 @@ typedef struct{
     u_task_arg arg;
 }u_tcb;
 
-
 #define MAX_NUM_U_TASKS            (sizeof(U_PRIORITYLIST)*8)
 #define MAX_PRIO            	   (MAX_NUM_U_TASKS-1)
 #define MAX_ID            		   (MAX_NUM_U_TASKS-1)
@@ -68,7 +75,7 @@ typedef struct{
 
 #define U_SCHEDULER()         	   u_next = u_priority_list[U_Scheduler(u_ready_list)]
 
-  
+#if 0
 #define SET_READYLIST_PRIO(p)       u_ready_list |= u_prio_mask[(p)]
 #define RESET_READYLIST_PRIO(p)     u_ready_list &= ~u_prio_mask[(p)]
 
@@ -77,16 +84,34 @@ typedef struct{
 
 #define SET_WAITLIST(u,s)     		(s)->waitlist |= u_prio_mask[(u)->prio]
 #define RESET_WAITLIST(u,s)   		(s)->waitlist &= ~u_prio_mask[U_Scheduler((s)->waitlist)]
-        
-#define EVENT_PEND(u,s)       		RESET_READYLIST(u,s); SET_WAITLIST(u,s);
-#define EVENT_POST(u,s)       		SET_READYLIST(u,s); RESET_WAITLIST(u,s);
+#else
 
-#define U_LOOP_FOREVER()      for(;;)                               \
-                               {                                    \
-                                 u_curr = u_next;                   \
-                                 (void) U_TCB[u_curr].ptr(); 		\
-                                 u_main_task();						\
-                               }                               
+#define SET_READYLIST_PRIO(p)       if((p)>0x0F){u_ready_list.w[1] |= u_prio_mask[(p) - 16];} \
+									else{u_ready_list.w[0] |= u_prio_mask[(p)];}
+
+#define RESET_READYLIST_PRIO(p)     if((p)>0x0F){u_ready_list.w[1] &= ~u_prio_mask[(p) - 16]; } \
+									else{u_ready_list.w[0] &= ~u_prio_mask[(p)];};
+
+#define SET_READYLIST(u,s)    	 	SET_READYLIST_PRIO(U_Scheduler((s)->waitlist))
+#define RESET_READYLIST(u,s)     	RESET_READYLIST_PRIO((u)->prio)
+
+#define SET_WAITLIST(u,s)     		if(((u)->prio)>0x0F){(s)->waitlist.w[1] |= u_prio_mask[((u)->prio) - 16];} \
+									else{(s)->waitlist.w[0] |= u_prio_mask[(u)->prio];}
+
+#define RESET_WAITLIST(u,s)   		if(((u)->prio)>0x0F){(s)->waitlist.w[1] &= ~u_prio_mask[(U_Scheduler((s)->waitlist)) - 16];} \
+									else{(s)->waitlist.w[0] &= ~u_prio_mask[U_Scheduler((s)->waitlist)];}\
+
+#endif
+
+#define EVENT_PEND(u,s)       		RESET_READYLIST((u),(s)); SET_WAITLIST((u),(s));
+#define EVENT_POST(u,s)       		SET_READYLIST((u),(s)); RESET_WAITLIST((u),(s));
+
+#define U_LOOP_FOREVER()      	   for(;;)                               \
+								   {                                    \
+									 u_curr = u_next;                   \
+									 (void) U_TCB[u_curr].ptr(); 		\
+									 u_main_task();						\
+								   }
                               
 #define U_RUN()            	   U_EnterCritical();                       \
                                U_SCHEDULER();                           \
@@ -107,7 +132,7 @@ typedef struct{
 								   u_assert(u_priority_list[p] == (u08)(-1));   \
 								   u_priority_list[p] = ++u_curr;           \
 								   (u)->prio = p; 							 \
-								   if(s) u_ready_list |= u_prio_mask[p];	 \
+								   if(s) {SET_READYLIST_PRIO(p);}	 			\
 								   if(z) { (u)->stk.top = &U_STACK[u_stack_cnt];  \
 								   	   	   (u)->stk.size = 0; u_stack_cnt += z; } \
 								   u_assert(u_stack_cnt <= U_STACK_SIZE);   \
@@ -213,7 +238,7 @@ typedef struct{
 /* extern variables */
 U_EXTERN u08 U_STACK[U_STACK_SIZE];
 U_EXTERN const u_tcb U_TCB[];
-U_EXTERN const U_PRIORITYLIST u_prio_mask[MAX_NUM_U_TASKS];
+U_EXTERN const u16 u_prio_mask[MAX_NUM_U_TASKS];
 U_EXTERN U_PRIORITYLIST u_ready_list; /* ReadyList */
 U_EXTERN u08 u_priority_list[MAX_NUM_U_TASKS]; /* List of ids by priorities */
  

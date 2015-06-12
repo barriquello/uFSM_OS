@@ -16,5 +16,6 @@
 #define U_INT_NEST_ENABLE       0
 #define U_STACK_SIZE  			256
 #define U_DEBUG_PRINTF			1
+#define U_MAX_NUM_TASKS			32
 
 #endif /* U_CONFIG_H_ */

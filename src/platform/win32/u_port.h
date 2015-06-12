@@ -34,8 +34,6 @@ typedef uint32_t   	  u32;
 typedef int32_t       s32;
 
 
-typedef u16 	U_PRIORITYLIST;
-
 #define U_EnterCritical()
 #define U_EnterCritical()
 #define U_ExitCritical()

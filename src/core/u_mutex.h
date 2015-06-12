@@ -12,7 +12,7 @@
 #include "u_core.h"
 
 typedef struct {  
-  u16 waitlist;
+  U_PRIORITYLIST waitlist;
   u08 count;
   u08 mtx_prio;
   u08 orig_prio; 
@@ -39,7 +39,7 @@ typedef struct {
                             if(u_priority_list[p] != (u08)(-1)) for(;;);   \
                             u_priority_list[p] = MUTEX_PRIO;          \
                             (s)->mtx_prio = p; (s)->orig_prio = 0;    \
-                            (s)->count = 0; (s)->waitlist = 0;        
+                            (s)->count = 0; (s)->waitlist.w[1] = 0; (s)->waitlist.w[0] = 0;
 
 /**
  * Acquire a mutex

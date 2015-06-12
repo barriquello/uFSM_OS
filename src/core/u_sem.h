@@ -14,7 +14,7 @@
 
 typedef struct {
   u16 count;
-  u16 waitlist;    
+  U_PRIORITYLIST waitlist;
 }u_sem;
 
     
@@ -32,7 +32,7 @@ typedef struct {
  * \param c (unsigned int) The initial count of the semaphore.
  * \hideinitializer
  */
-#define U_SEM_INIT(s, c) (s)->count = c; (s)->waitlist = 0;
+#define U_SEM_INIT(s, c) (s)->count = c; (s)->waitlist.dw = 0;
 
 /**
  * Pend for a semaphore

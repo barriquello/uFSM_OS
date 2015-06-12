@@ -40,7 +40,7 @@ const u08 U_SchedTbl[] = {
 #endif
 
 /* GLOBAL EXTERNAL variables */
-U_EXTERN const U_PRIORITYLIST u_prio_mask[]=
+U_EXTERN const u16 u_prio_mask[]=
 {
   0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x0100,0x0200,0x0400,0x0800,0x1000,0x2000,0x4000,0x8000
 };
@@ -65,7 +65,7 @@ void U_INIT(void)
        u_priority_list[i] = -1;
      }
      u_priority_list[0] = 0;  /* for U_idle */
-     u_ready_list = 1;       /* U_idle always ready */
+     u_ready_list.w[0] = 1;   /* u_idle always ready */
      u_next = 0;
      u_curr = 0;
      u_int_nesting = 0;
@@ -79,17 +79,27 @@ void U_INIT(void)
 u08 U_Scheduler(U_PRIORITYLIST list){
     
 #if (U_SCHED_OPT == 0)
-    u08 list_tmp, off;
+	 u16 list_tmp16;
+	 u08 list_tmp, off;
 
+	if(list.w[1] > 0)
+	{
+		list_tmp16 = list.w[1];
+		off=16;
+	}else
+	{
+		list_tmp16 = list.w[0];
+		off=0;
+	}
      
-    if (list > 0xFF)
+    if (list_tmp16 > 0xFF)
     {
-        list_tmp = (u08)(list >> 8);
-        off = 8;      
+        list_tmp = (u08)(list_tmp16 >> 8);
+        off += 8;
     }else
     {
-        list_tmp = (u08)list;
-        off = 0; 
+        list_tmp = (u08)list_tmp16;
+        off += 0;
     } 
 
     
@@ -145,43 +155,67 @@ u08 U_Scheduler(U_PRIORITYLIST list){
     }
 #elif (U_SCHED_OPT == 1)
 
+    u16 list_tmp16;
     u08 list_tmp;
-    
-    if (list > 0xFF)
+    u08 off = 0;
+
+    if(list.w[1] > 0)
     {
-      list_tmp = (u08) (list >> 8);
-      return (U_SchedTbl[list_tmp] + 8);
+    	list_tmp16 = list.w[1];
+    	off = 16;
     }else
     {
-      list_tmp = (u08)list;
-      return (U_SchedTbl[list_tmp]);
+    	list_tmp16 = list.w[0];
+    	off = 0;
+    }
+    
+    if (list_tmp16 > 0xFF)
+    {
+      list_tmp = (u08) (list_tmp16 >> 8);
+      return (U_SchedTbl[list_tmp] + 8 + off);
+    }else
+    {
+      list_tmp = (u08)list_tmp16;
+      return (U_SchedTbl[list_tmp] + off);
     }
     
 #elif (U_SCHED_OPT == 2)
 
+    u16 list_tmp16;
     u08 list_tmp;
+    u08 off = 0;
+
+	if(list.w[1] > 0)
+	{
+		list_tmp16 = list.w[1];
+		off = 16;
+	}else
+	{
+		list_tmp16 = list.w[0];
+		off = 0;
+	}
     
-    if (list > 0xFF)
+    if (list_tmp16 > 0xFF)
     {
-      list_tmp = (u08) (list >> 8);
+      list_tmp = (u08) (list_tmp16 >> 8);
       if (list_tmp > 0x0F)
       {
          list_tmp = (u08) (list_tmp >> 4);
-         return (U_SchedTbl[list_tmp] + 12);
+         return (U_SchedTbl[list_tmp] + 12 + off);
       }else
       {
-         return (U_SchedTbl[list_tmp] + 8);
+         return (U_SchedTbl[list_tmp] + 8 + off);
       } 
     }else
     {
-      list_tmp = (u08)list;
+      list_tmp = (u08)list_tmp16;
       if (list_tmp > 0x0F)
       {
          list_tmp = (u08) (list_tmp >> 4);
-         return (U_SchedTbl[list_tmp] + 4);
+         return (U_SchedTbl[list_tmp] + 4 + off);
       }else
       {
-         return (U_SchedTbl[list_tmp]);
+         return (U_SchedTbl[list_tmp] + off);
       }    
     }
     
@@ -229,7 +263,7 @@ void Sem_Post(u_task* u, u_sem* s)
       
       TEST_INT_NESTING(U_EnterCritical());
               
-      if((s)->waitlist == 0)
+      if((s)->waitlist.w[1] == 0 && (s)->waitlist.w[0] == 0)
       {
         ++(s)->count;                
       }else
@@ -271,16 +305,23 @@ void Mutex_Release(u_task* u, u_mutex* s)
       {
        
           U_EnterCritical();
-			  /* Remove "max priority" from the Ready List*/
-			  u_ready_list &= ~(u_prio_mask[(u)->prio]);
+			  #if U_MAX_NUM_TASKS > 16
+              /* Remove "max priority" from the Ready List*/
+          	  	SET_READYLIST_PRIO((s)->orig_prio);
+			  /* Put the "original priority" into Ready List */
+          	    RESET_READYLIST_PRIO((u)->prio);
+			  #else
 			  /* Put the "original priority" into Ready List */
 			  u_ready_list |= (u_prio_mask[(s)->orig_prio]);
+			  /* Remove "max priority" from the Ready List*/
+			  u_ready_list &= ~(u_prio_mask[(u)->prio]);
+			  #endif
           U_ExitCritical();
           
           (u)->prio = (s)->orig_prio;
       }
                 
-      if((s)->waitlist == 0)
+      if((s)->waitlist.w[1] == 0 && (s)->waitlist.w[0] == 0)
       {
         (s)->count = 0;
         (s)->owner = 0;
@@ -291,7 +332,8 @@ void Mutex_Release(u_task* u, u_mutex* s)
         /* transfer mutex to next utask */
         u08 _prio = U_Scheduler((s)->waitlist);
         (s)->owner = u_priority_list[_prio];
-        (s)->waitlist &= ~u_prio_mask[_prio];
+        if(_prio > 0x0F) {(s)->waitlist.w[1] &= ~u_prio_mask[_prio - 16];}
+        else {(s)->waitlist.w[0] &= ~u_prio_mask[_prio];}
         Mutex_PrioCeil((U_TCB[((s)->owner)].arg),s);
       }
 }
@@ -312,11 +354,19 @@ void Mutex_PrioCeil(u_task* u, u_mutex* s)
       u_priority_list[(s)->mtx_prio] = (s)->owner;
       
       U_EnterCritical();
-      
-        /* Remove "original priority" from the Ready List */
-        u_ready_list &= ~(u_prio_mask[(s)->orig_prio]);
-        /* Put the "mutex priority" into Ready List */
-        u_ready_list |= (u_prio_mask[(s)->mtx_prio]);
+			  #if U_MAX_NUM_TASKS > 16
+
+			  /* Remove "max priority" from the Ready List*/
+				RESET_READYLIST_PRIO((s)->orig_prio);
+			  /* Put the "original priority" into Ready List */
+				SET_READYLIST_PRIO((s)->mtx_prio);
+
+			  #else
+		        /* Remove "original priority" from the Ready List */
+		        u_ready_list &= ~(u_prio_mask[(s)->orig_prio]);
+		        /* Put the "mutex priority" into Ready List */
+		        u_ready_list |= (u_prio_mask[(s)->mtx_prio]);
+			  #endif
       
       U_ExitCritical();
     }
