@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_core.c
+ * \file u-task.c
  * System core functions
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
@@ -65,10 +65,30 @@ U_EXTERN const u16 U_TASK_PRIO_MASK[]=
 
 
 /*---------------------------------------------------------------*/
+/******************* init ***************/
+/* used for initialization of system variables 	*******/
+
+void u_task_init(void)
+{
+     u08 i;
+     for(i=1;i<MAX_NUM_U_TASKS;i++)
+     {
+       u_task_priority_list[i] = -1;
+     }
+     u_task_priority_list[0] = 0;  /* for U_idle */
+     u_task_ready_list.w[0] = 1;   /* u_idle always ready */
+     u_task_next = 0;
+     u_task_curr = 0;
+     u_task_stack_cnt = 0;
+     u_sched_int_nest = 0;
+     u_time_init();
+}
+
+/*---------------------------------------------------------------*/
 /******************* task suspend  ***************/
 void u_task_suspend(u_task* u)
 {
-	 u_assert(u_core_int_nest == 0); /* can not block inside an ISR */
+	 u_assert(u_sched_int_nest == 0); /* can not block inside an ISR */
 	 U_EnterCritical();
 	 	 RESET_READYLIST_PRIO((u->prio));
 	 U_ExitCritical();

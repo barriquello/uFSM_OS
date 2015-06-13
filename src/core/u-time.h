@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_time.h
+ * \file u-time.h
  * System Time and Timer Services
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>

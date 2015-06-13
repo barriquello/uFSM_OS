@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_port.h
+ * \file u-port.h
  * Platform dependent code
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>

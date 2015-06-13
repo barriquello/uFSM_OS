@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_sem.c
+ * \file u-sem.c
  * Counting semaphores
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
@@ -47,7 +47,7 @@
 
 void u_sem_pend(u_task* u, u_sem* s)
 {
-      u_assert(u_core_int_nest == 0); /* can not block inside an ISR */
+      u_assert(u_sched_int_nest == 0); /* can not block inside an ISR */
       U_EnterCritical();
       if(!((s)->count > 0))
       {

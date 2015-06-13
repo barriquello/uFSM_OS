@@ -43,7 +43,7 @@
 
 #if (CONF_U_CORE_SCHED_OPT == 1)
 
-const u08 U_CORE_SCHEDULE_TABLE[] = {
+const u08 U_SCHED_TABLE[] = {
   0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,  /* 0x00 to 0x0F */
   4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,  /* 0x10 to 0x1F */
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,  /* 0x20 to 0x2F */
@@ -64,7 +64,7 @@ const u08 U_CORE_SCHEDULE_TABLE[] = {
 
 #elif (CONF_U_CORE_SCHED_OPT == 2)
 
-const u08 U_CORE_SCHEDULE_TABLE[] = {
+const u08 U_SCHED_TABLE[] = {
   0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,  /* 0x00 to 0x0F */
 };
 
@@ -72,29 +72,9 @@ const u08 U_CORE_SCHEDULE_TABLE[] = {
 
 
 /*---------------------------------------------------------------*/
-/******************* init ***************/
-/* used for initialization of system variables 	*******/
-
-void u_core_init(void)
-{
-     u08 i;
-     for(i=1;i<MAX_NUM_U_TASKS;i++)
-     {
-       u_task_priority_list[i] = -1;
-     }
-     u_task_priority_list[0] = 0;  /* for U_idle */
-     u_task_ready_list.w[0] = 1;   /* u_idle always ready */
-     u_task_next = 0;
-     u_task_curr = 0;
-     u_task_stack_cnt = 0;
-     u_core_int_nest = 0;
-     u_time_init();
-}
-
-/*---------------------------------------------------------------*/
 /******************* scheduler ***************/
 
-u08 u_core_schedule(u_prio_list_t list){
+u08 u_sched(u_prio_list_t list){
 
 #if (CONF_U_CORE_SCHED_OPT == 0)
 	 u16 list_tmp16;
@@ -190,11 +170,11 @@ u08 u_core_schedule(u_prio_list_t list){
     if (list_tmp16 > 0xFF)
     {
       list_tmp = (u08) (list_tmp16 >> 8);
-      return (U_CORE_SCHEDULE_TABLE[list_tmp] + 8 + off);
+      return (U_SCHED_TABLE[list_tmp] + 8 + off);
     }else
     {
       list_tmp = (u08)list_tmp16;
-      return (U_CORE_SCHEDULE_TABLE[list_tmp] + off);
+      return (U_SCHED_TABLE[list_tmp] + off);
     }
 
 #elif (CONF_U_CORE_SCHED_OPT == 2)
@@ -219,10 +199,10 @@ u08 u_core_schedule(u_prio_list_t list){
       if (list_tmp > 0x0F)
       {
          list_tmp = (u08) (list_tmp >> 4);
-         return (U_CORE_SCHEDULE_TABLE[list_tmp] + 12 + off);
+         return (U_SCHED_TABLE[list_tmp] + 12 + off);
       }else
       {
-         return (U_CORE_SCHEDULE_TABLE[list_tmp] + 8 + off);
+         return (U_SCHED_TABLE[list_tmp] + 8 + off);
       }
     }else
     {
@@ -230,10 +210,10 @@ u08 u_core_schedule(u_prio_list_t list){
       if (list_tmp > 0x0F)
       {
          list_tmp = (u08) (list_tmp >> 4);
-         return (U_CORE_SCHEDULE_TABLE[list_tmp] + 4 + off);
+         return (U_SCHED_TABLE[list_tmp] + 4 + off);
       }else
       {
-         return (U_CORE_SCHEDULE_TABLE[list_tmp] + off);
+         return (U_SCHED_TABLE[list_tmp] + off);
       }
     }
 

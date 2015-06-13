@@ -43,7 +43,7 @@
 #define UFSMRTOS_H_
 
 #include "u-task.h"
-#include "u-core.h"
+#include "u-sched.h"
 #include "u-sem.h" /* semaphores services */
 #include "u-time.h" /* time and timer services */
 #include "u-mutex.h" /* mutexes services */
@@ -71,14 +71,14 @@
 	U_TASK_SUSPEND;
 	U_TASK_DELAY;
 
-	/* module u-core */
+	/* module u-sched */
     /* functions */
 	u_core_init;
 	u_core_schedule;
 	/* variables */
 	u_core_int_nest;
 	/* const */
-	U_CORE_SCHEDULE_TABLE;
+	U_SCHED_TABLE;
 
 	/* module u-time */
     /* functions */

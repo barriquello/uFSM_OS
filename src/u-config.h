@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_config.h
+ * \file u-config.h
  * System configuration
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>

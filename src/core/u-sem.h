@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_sem.h
+ * \file u-sem.h
  * Counting semaphores
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
@@ -121,16 +121,16 @@ void u_sem_post_to(u_task* u);
 
 #define U_SEM_POST(s)                           \
         u_sem_post(u,s);                          \
-        if(!u_core_int_nest){U_EnterCritical();}  \
+        if(!u_sched_int_nest){U_EnterCritical();}  \
         U_SCHEDULER();                          \
-        if(!u_core_int_nest){U_ExitCritical(); U_PREEMP_POINT(u);}
+        if(!u_sched_int_nest){U_ExitCritical(); U_PREEMP_POINT(u);}
 
 
 #define U_SEM_POST_TO(name)                     			\
         u_sem_post_to(U_TASK_GET(U_GET_TASK_ID(name)));       \
-        if(!u_core_int_nest){U_EnterCritical();}  			\
+        if(!u_sched_int_nest){U_EnterCritical();}  			\
         U_SCHEDULER();                          			\
-        if(!u_core_int_nest){U_ExitCritical(); U_PREEMP_POINT(u);}
+        if(!u_sched_int_nest){U_ExitCritical(); U_PREEMP_POINT(u);}
 
        
 

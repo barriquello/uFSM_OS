@@ -47,7 +47,7 @@
 
 void u_mutex_acquire(u_task* u, u_mutex* s)
 {
-	  u_assert(u_core_int_nest == 0);
+	  u_assert(u_sched_int_nest == 0);
       u_assert((s)->owner != u_task_curr);
       if((s)->count > 0)
       {
@@ -97,7 +97,7 @@ void u_mutex_release(u_task* u, u_mutex* s)
       }else
       {
         /* transfer mutex to next utask */
-        u08 _prio = u_core_schedule((s)->waitlist);
+        u08 _prio = u_sched((s)->waitlist);
         (s)->owner = u_task_priority_list[_prio];
         if(_prio > 0x0F) {(s)->waitlist.w[1] &= ~U_TASK_PRIO_MASK[_prio - 16];}
         else {(s)->waitlist.w[0] &= ~U_TASK_PRIO_MASK[_prio];}

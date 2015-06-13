@@ -113,18 +113,18 @@ typedef struct{
 #define MAX_ID            		   (MAX_NUM_U_TASKS-1)
 #define MUTEX_PRIO      	       ((u08)(-2))
 
-#define U_INIT()				   u_core_init();
-#define U_SCHEDULER()         	   u_task_next = u_task_priority_list[u_core_schedule(u_task_ready_list)]
+#define U_INIT()				   u_task_init();
+#define U_SCHEDULER()         	   u_task_next = u_task_priority_list[u_sched(u_task_ready_list)]
 
 #if 0
 #define SET_READYLIST_PRIO(p)       u_task_ready_list |= U_TASK_PRIO_MASK[(p)]
 #define RESET_READYLIST_PRIO(p)     u_task_ready_list &= ~U_TASK_PRIO_MASK[(p)]
 
-#define SET_READYLIST(u,s)    	 	SET_READYLIST_PRIO(u_core_schedule((s)->waitlist))
+#define SET_READYLIST(u,s)    	 	SET_READYLIST_PRIO(u_sched((s)->waitlist))
 #define RESET_READYLIST(u,s)     	RESET_READYLIST_PRIO((u)->prio)
 
 #define SET_WAITLIST(u,s)     		(s)->waitlist |= U_TASK_PRIO_MASK[(u)->prio]
-#define RESET_WAITLIST(u,s)   		(s)->waitlist &= ~U_TASK_PRIO_MASK[u_core_schedule((s)->waitlist)]
+#define RESET_WAITLIST(u,s)   		(s)->waitlist &= ~U_TASK_PRIO_MASK[u_sched((s)->waitlist)]
 #else
 
 #define SET_READYLIST_PRIO(p)       if((p)>0x0F){u_task_ready_list.w[1] |= U_TASK_PRIO_MASK[(p) - 16];} \
@@ -133,14 +133,14 @@ typedef struct{
 #define RESET_READYLIST_PRIO(p)     if((p)>0x0F){u_task_ready_list.w[1] &= ~U_TASK_PRIO_MASK[(p) - 16]; } \
 									else{u_task_ready_list.w[0] &= ~U_TASK_PRIO_MASK[(p)];};
 
-#define SET_READYLIST(u,s)    	 	SET_READYLIST_PRIO(u_core_schedule((s)->waitlist))
+#define SET_READYLIST(u,s)    	 	SET_READYLIST_PRIO(u_sched((s)->waitlist))
 #define RESET_READYLIST(u,s)     	RESET_READYLIST_PRIO((u)->prio)
 
 #define SET_WAITLIST(u,s)     		if(((u)->prio)>0x0F){(s)->waitlist.w[1] |= U_TASK_PRIO_MASK[((u)->prio) - 16];} \
 									else{(s)->waitlist.w[0] |= U_TASK_PRIO_MASK[(u)->prio];}
 
-#define RESET_WAITLIST(u,s)   		if(((u)->prio)>0x0F){(s)->waitlist.w[1] &= ~U_TASK_PRIO_MASK[(u_core_schedule((s)->waitlist)) - 16];} \
-									else{(s)->waitlist.w[0] &= ~U_TASK_PRIO_MASK[u_core_schedule((s)->waitlist)];}\
+#define RESET_WAITLIST(u,s)   		if(((u)->prio)>0x0F){(s)->waitlist.w[1] &= ~U_TASK_PRIO_MASK[(u_sched((s)->waitlist)) - 16];} \
+									else{(s)->waitlist.w[0] &= ~U_TASK_PRIO_MASK[u_sched((s)->waitlist)];}\
 
 #endif
 
@@ -214,14 +214,14 @@ typedef struct{
 #define U_PREEMP_POINT(u)  	U_WAIT_UNTIL(u, u_task_curr == u_task_next)
 
 
-#define U_INT_ENTER()   	u_core_int_nest++;
+#define U_INT_ENTER()   	u_sched_int_nest++;
 
-#define U_INT_EXIT()    	U_EnterCritical(); u_core_int_nest--; \
-                        	if(u_core_int_nest == 0) U_SCHEDULER();
+#define U_INT_EXIT()    	U_EnterCritical(); u_sched_int_nest--; \
+                        	if(u_sched_int_nest == 0) U_SCHEDULER();
 
 /* macros for interrupt nesting */                        
 #if CONF_U_CORE_INT_NEST_ENABLE == 0
-#define TEST_INT_NESTING(instr)   if(!u_core_int_nest){instr;}
+#define TEST_INT_NESTING(instr)   if(!u_sched_int_nest){instr;}
 #define U_NESTING_ENABLE()
 #else
 #define TEST_INT_NESTING(instr)   instr;
@@ -294,6 +294,7 @@ U_EXTERN volatile u08 u_task_curr; /* current utask */
 U_EXTERN volatile u08 u_task_next; /* next utask */
 U_EXTERN volatile u16 u_task_stack_cnt;
 
+U_EXTERN void u_task_init(void);
 U_EXTERN void u_task_idle(void);
 U_EXTERN void u_task_main(void);
 U_EXTERN void u_task_suspend(u_task* u);

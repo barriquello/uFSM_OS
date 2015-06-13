@@ -32,12 +32,12 @@
  *
  */
 /*
- * u-core.h
+ * u-sched.h
  *
  */
 
-#ifndef _U_CORE_H_
-#define _U_CORE_H_
+#ifndef _U_SCHED_H_
+#define _U_SCHED_H_
 
 #include "u-task.h"
 
@@ -50,9 +50,7 @@
 #define U_EXTERN extern
 #endif /* DEFINE_VARIABLES */
 
-U_EXTERN volatile u08 u_core_int_nest;
-
-U_EXTERN void u_core_init(void);
-U_EXTERN u08 u_core_schedule(u_prio_list_t);  /* scheduler */
+U_EXTERN volatile u08 u_sched_int_nest;
+U_EXTERN u08 u_sched(u_prio_list_t);  /* scheduler */
 
 #endif /* CORE_U_CORE_H_ */

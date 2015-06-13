@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_time.c
+ * \file u-time.c
  * System Time and Timer Services
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
@@ -167,7 +167,7 @@ void u_timer_set (u_timer p, u16 time_wait)
 
 void Timer_Pend(u_task* u, u_timer s, u16 time_wait)
 {
-      u_assert(u_core_int_nest == 0); /* can not block inside an ISR */
+      u_assert(u_sched_int_nest == 0); /* can not block inside an ISR */
       u_timer_set(s,time_wait);
       s->u_id = u_task_curr;
       U_EnterCritical();

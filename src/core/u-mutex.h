@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_mutex.h
+ * \file u-mutex.h
  * Counting mutexes, with priority ceiling protocol
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>

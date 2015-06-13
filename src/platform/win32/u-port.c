@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_port.c
+ * \file u-port.c
  * Platform dependent code
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>

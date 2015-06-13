@@ -32,7 +32,7 @@
  *
  */
 /**
- * \file u_assert.h
+ * \file u-assert.h
  * Implementation of static assertions
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
