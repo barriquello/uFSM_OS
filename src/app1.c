@@ -39,7 +39,7 @@
  *
  */
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 #include <stdlib.h>
 
 extern u_sem semtest;

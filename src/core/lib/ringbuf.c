@@ -37,7 +37,7 @@
  *         Adam Dunkels <adam@sics.se>
  */
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 #include "lib/ringbuf.h"
 /*---------------------------------------------------------------------------*/
 void

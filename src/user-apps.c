@@ -40,7 +40,7 @@
  */
 
 /* We must always include uFSMrtos.h in our code. */
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 #include "install-apps.h"
 #undef DEFINE_U_VARIABLES

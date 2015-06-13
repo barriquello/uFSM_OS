@@ -40,7 +40,7 @@
  */
 
 #define DEFINE_U_CORE_VARIABLES
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 /* declaration of variables an functions */
 #ifdef DEFINE_U_CORE_VARIABLES

@@ -42,7 +42,7 @@
 #ifndef __U_TIME_H__
 #define __U_TIME_H__
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 typedef unsigned long long u_clock_t;
 typedef u16 			   u_tick_t;

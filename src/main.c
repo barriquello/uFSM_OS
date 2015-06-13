@@ -39,8 +39,8 @@
  *
  */
 
-/* We must always include uFSMrtos.h in our utasks code. */
-#include "uFSMrtos.h"
+/* We must always include ufsm-rtos.h in our utasks code. */
+#include "ufsm-rtos.h"
 
 
 #ifdef __cplusplus

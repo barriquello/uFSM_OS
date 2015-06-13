@@ -42,7 +42,7 @@
 #ifndef __U_MUTEX_H__
 #define __U_MUTEX_H__
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 typedef struct {  
   u_prio_list_t waitlist;

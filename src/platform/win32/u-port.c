@@ -45,7 +45,7 @@
 #include <windows.h>
 #endif
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 static unsigned long long last_time = 0;
 

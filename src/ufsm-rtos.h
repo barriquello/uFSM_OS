@@ -39,8 +39,8 @@
  *
  */
 
-#ifndef UFSMRTOS_H_
-#define UFSMRTOS_H_
+#ifndef UFSM_RTOS_H_
+#define UFSM_RTOS_H_
 
 #include "u-task.h"
 #include "u-sched.h"

@@ -39,7 +39,7 @@
  *
  */
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 /* private data */
 static struct

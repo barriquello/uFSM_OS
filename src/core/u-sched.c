@@ -39,7 +39,7 @@
  *
  */
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 #if (CONF_U_CORE_SCHED_OPT == 1)
 

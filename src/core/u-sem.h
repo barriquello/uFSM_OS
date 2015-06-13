@@ -42,7 +42,7 @@
 #ifndef __U_SEM_H__
 #define __U_SEM_H__
 
-#include "uFSMrtos.h"
+#include "ufsm-rtos.h"
 
 typedef struct {
   u16 count;
