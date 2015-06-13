@@ -32,23 +32,60 @@
  *
  */
 /**
- * \file
- * System tasks
+ * \file u_core.c
+ * System core functions
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef U_TASK_C_
-#define U_TASK_C_
+#define DEFINE_U_CORE_VARIABLES
+#include "uFSMrtos.h"
 
-#include "u-core.h"
+/* declaration of variables an functions */
+#ifdef DEFINE_U_CORE_VARIABLES
+#undef  U_EXTERN
+#define U_EXTERN /* nothing */
+#else
+#undef  U_EXTERN
+#define U_EXTERN extern
+#endif /* DEFINE_VARIABLES */
 
+/* GLOBAL EXTERNAL variables */
+U_EXTERN u08 u_task_priority_list[MAX_NUM_U_TASKS];
+U_EXTERN u_prio_list_t u_task_ready_list; /* List of Ready Priorities */
+U_EXTERN volatile u08 u_task_curr; /* current utask */
+U_EXTERN volatile u08 u_task_next; /* next utask */
+U_EXTERN u08 u_task_stack[CONF_U_TASK_STACK_SIZE];	/** stack task */
+
+U_EXTERN const u16 U_TASK_PRIO_MASK[]=
+{
+  0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x0100,0x0200,0x0400,0x0800,0x1000,0x2000,0x4000,0x8000
+};
+
+
+/*---------------------------------------------------------------*/
+/******************* task suspend  ***************/
+void u_task_suspend(u_task* u)
+{
+	 u_assert(u_core_int_nest == 0); /* can not block inside an ISR */
+	 U_EnterCritical();
+	 	 RESET_READYLIST_PRIO((u->prio));
+	 U_ExitCritical();
+}
+/*---------------------------------------------------------------*/
+/******************* task resume  ***************/
+void u_task_resume(prio_t p)
+{
+	TEST_INT_NESTING(U_EnterCritical(););
+	 	 SET_READYLIST_PRIO(p);
+	TEST_INT_NESTING(U_ExitCritical(););
+}
 
 /******************* idle ***************/
 /* this is the lowest priority task */
 /* it can be used for background work */
-U_TASK(u_idle)
+U_TASK(u_task_idle)
 {
   U_IDLE();
   return;
@@ -57,12 +94,8 @@ U_TASK(u_idle)
 /******************* main task ***************/
 /* this is the highest priority task */
 /* it can be used for instance to emulate interrupts */
-U_TASK(u_main_task)
+U_TASK(u_task_main)
 {
 	TickTimer();
 	return;
 }
-
-
-
-#endif /* U_TASK_C_ */

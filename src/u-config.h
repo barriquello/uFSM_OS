@@ -44,10 +44,10 @@
 
 #include "platform-conf.h"
 
-#define U_SCHED_OPT     		1
+#define CONF_U_CORE_SCHED_OPT    1
 #define U_IDLE()
 #define U_INT_NEST_ENABLE       0
-#define U_STACK_SIZE  			256
+#define CONF_U_TASK_STACK_SIZE  			256
 #define U_DEBUG_PRINTF			1
 #define U_MAX_NUM_TASKS			32
 #define U_STATIC_TIMERS			2

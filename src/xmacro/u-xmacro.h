@@ -93,7 +93,7 @@ typedef struct{
 #ifdef DEFINE_U_VARIABLES
 /* declare a table of function pointers */
 const u_tcb U_TCB[U_NUM_TASKS] = {
-    {u_idle,NULL},
+    {u_task_idle,NULL},
     U_TASK_TABLE(EXPAND_AS_JUMPTABLE)
 };
 
@@ -102,10 +102,9 @@ const u_tcb U_TCB[U_NUM_TASKS] = {
 //enum{
 //    STATE_TABLE(EXPAND_AS_ENUMERATION)
 //}
+#endif
 
-#define TIMERS_TABLE_EN 1
-
-#if TIMERS_TABLE_EN == 1
+#ifdef U_TIMER_TABLE
 
 #define EXPAND_AS_TIMERSTRUCT(a,c,d) u08 LC_VAR(a);
 
@@ -128,6 +127,7 @@ typedef struct
 
 #define EXPAND_AS_TIMERJUMPTABLE(a,c,d) {a,&(LC_VAR(a))},
 
+#ifdef DEFINE_U_VARIABLES
 /* declare a table of function pointers */ 
 const c_timer_t U_TMR[U_NUM_TIMERS] =
 {
@@ -136,9 +136,5 @@ const c_timer_t U_TMR[U_NUM_TIMERS] =
 #endif
 
 #endif
-
-
-
-
 
 

@@ -31,28 +31,84 @@
  * Author: Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-/*
- * u-core.h
+/**
+ * \file u_sem.c
+ * Counting semaphores
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef _U_CORE_H_
-#define _U_CORE_H_
 
-#include "u-task.h"
+#include "uFSMrtos.h"
 
-/* declaration of variables an functions */
-#ifdef DEFINE_U_CORE_VARIABLES
-#undef  U_EXTERN
-#define U_EXTERN /* nothing */
-#else
-#undef  U_EXTERN
-#define U_EXTERN extern
-#endif /* DEFINE_VARIABLES */
+/*---------------------------------------------------------------*/
+/**************** semaphores ******************/
 
-U_EXTERN volatile u08 u_core_int_nest;
+void u_sem_pend(u_task* u, u_sem* s)
+{
+      u_assert(u_core_int_nest == 0); /* can not block inside an ISR */
+      U_EnterCritical();
+      if(!((s)->count > 0))
+      {
+        EVENT_PEND(u,s);
+      }else
+      {
+        --(s)->count;
+      }
+      U_ExitCritical();
+}
+/*---------------------------------------------------------------*/
+void u_sem_post(u_task* u, u_sem* s)
+{
+      (void)u;
 
-U_EXTERN void u_core_init(void);
-U_EXTERN u08 u_core_schedule(u_prio_list_t);  /* scheduler */
+      TEST_INT_NESTING(U_EnterCritical());
 
-#endif /* CORE_U_CORE_H_ */
+      if((s)->waitlist.w[1] == 0 && (s)->waitlist.w[0] == 0)
+      {
+        ++(s)->count;
+      }else
+      {
+        EVENT_POST(u,s);
+      }
+
+      TEST_INT_NESTING(U_ExitCritical());
+}
+
+/*---------------------------------------------------------------*/
+void u_sem_pend_self(u_task* u)
+{
+      U_EnterCritical();
+      if(!((u)->ecnt > 0))
+      {
+    	  (u)->evt = EV_WAIT;
+    	  RESET_READYLIST_PRIO((u)->prio);
+      }else
+      {
+    	  (u)->evt = EV_NONE;
+          --(u)->ecnt;
+      }
+      U_ExitCritical();
+}
+
+/*---------------------------------------------------------------*/
+void u_sem_post_to(u_task* u)
+{
+      (void)u;
+
+      TEST_INT_NESTING(U_EnterCritical());
+
+      if((u)->evt != EV_WAIT)
+      {
+        ++(u)->ecnt;
+      }else
+      {
+    	 (u)->evt = EV_SEM;
+    	 SET_READYLIST_PRIO((u)->prio);
+      }
+
+      TEST_INT_NESTING(U_ExitCritical());
+}
+
+/************************************************/

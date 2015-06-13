@@ -42,10 +42,48 @@
 #ifndef UFSMRTOS_H_
 #define UFSMRTOS_H_
 
+#include "u-task.h"
 #include "u-core.h"
 #include "u-sem.h" /* semaphores services */
 #include "u-time.h" /* time and timer services */
 #include "u-mutex.h" /* mutexes services */
+
+#if UFSMRTOS_API
+	/* module u_task */
+    /* functions */
+	u_task_create
+	u_task_resume;
+	u_task_suspend;
+	u_task_main;
+	u_task_idle;
+	/* variables */
+	u_task_ready_list;
+	u_task_priority_list;
+	u_task_stack;
+	u_task_stack_cnt;
+	u_task_curr;
+	u_task_next;
+	/* const */
+	U_TASK_PRIO_MASK;
+
+	/* macros */
+	U_TASK_RESUME;
+	U_TASK_SUSPEND;
+	U_TASK_DELAY;
+
+	/* module u_core */
+    /* functions */
+	u_core_init;
+	u_core_schedule;
+	/* variables */
+	u_core_int_nest;
+	/* const */
+	U_CORE_SCHEDULE_TABLE;
+
+
+	/* module u_sem */
+
+#endif
 
 #endif
 

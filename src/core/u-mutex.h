@@ -42,10 +42,10 @@
 #ifndef __U_MUTEX_H__
 #define __U_MUTEX_H__
 
-#include "u-core.h"
+#include "uFSMrtos.h"
 
 typedef struct {  
-  U_PRIORITYLIST waitlist;
+  u_prio_list_t waitlist;
   u08 count;
   u08 mtx_prio;
   u08 orig_prio; 
@@ -69,8 +69,8 @@ typedef struct {
  */
 #define U_MUTEX_INIT(s, p)  STATIC_ASSERT((p <= MAX_PRIO)); \
                             STATIC_ASSERT((p > 0));            \
-                            if(u_priority_list[p] != (u08)(-1)) for(;;);   \
-                            u_priority_list[p] = MUTEX_PRIO;          \
+                            if(u_task_priority_list[p] != (u08)(-1)) for(;;);   \
+                            u_task_priority_list[p] = MUTEX_PRIO;          \
                             (s)->mtx_prio = p; (s)->orig_prio = 0;    \
                             (s)->count = 0; (s)->waitlist.w[1] = 0; (s)->waitlist.w[0] = 0;
 
@@ -90,10 +90,10 @@ typedef struct {
  *
  * \hideinitializer
  */
-void Mutex_Acquire(u_task* u, u_mutex* s);
+void u_mutex_acquire(u_task* u, u_mutex* s);
   
 #define U_MUTEX_ACQUIRE(s) 	                       \
-        Mutex_Acquire(u,s);                        \
+        u_mutex_acquire(u,s);                        \
         U_SCHEDULER();                             \
         U_PREEMP_POINT(u);
         
@@ -115,17 +115,17 @@ void Mutex_Acquire(u_task* u, u_mutex* s);
  *
  * \hideinitializer
  */
-void Mutex_Release(u_task* u, u_mutex* s);
+void u_mutex_release(u_task* u, u_mutex* s);
 
 #define U_MUTEX_RELEASE(s)                          \
-        Mutex_Release(u,s);                            \
+        u_mutex_release(u,s);                            \
         U_SCHEDULER();                                 \
         U_PREEMP_POINT(u);
 
        
 
 /* This function implmentes the priority ceiling protocol */
-void Mutex_PrioCeil(u_task* u, u_mutex* s);
+void u_mutex_prio_ceil(u_task* u, u_mutex* s);
 
 #endif /* __U_MUTEX_H__ */
 

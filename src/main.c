@@ -58,7 +58,7 @@
 
 #define DEFINE_U_VARIABLES
 #include "u-xmacro.h"
-#undef DEFINE_U_VARIABLES
+
 
 u_mutex mutex_a, mutex_b;
 

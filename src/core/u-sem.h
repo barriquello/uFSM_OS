@@ -42,11 +42,11 @@
 #ifndef __U_SEM_H__
 #define __U_SEM_H__
 
-#include "u-core.h"
+#include "uFSMrtos.h"
 
 typedef struct {
   u16 count;
-  U_PRIORITYLIST waitlist;
+  u_prio_list_t waitlist;
 }u_sem;
 
     
@@ -64,7 +64,7 @@ typedef struct {
  * \param c (unsigned int) The initial count of the semaphore.
  * \hideinitializer
  */
-#define U_SEM_INIT(s, c) (s)->count = c; (s)->waitlist.dw = 0;
+#define U_SEM_INIT(s,c) (s)->count = c; (s)->waitlist.dw = 0;
 
 /**
  * Pend for a semaphore
@@ -82,18 +82,18 @@ typedef struct {
  *
  * \hideinitializer
  */
-void Sem_Pend(u_task* u, u_sem* s);
-void Sem_Pend_Self(u_task* u);
+void u_sem_pend(u_task* u, u_sem* s);
+void u_sem_pend_self(u_task* u);
   
 #define U_SEM_PEND(s) 	                      \
-        Sem_Pend(u,s);                        \
+		u_sem_pend(u,s);                        \
         U_EnterCritical();                    \
         U_SCHEDULER();                        \
         U_ExitCritical();                     \
         U_PREEMP_POINT(u);
 
 #define U_SEM_PEND_SELF() 	                  \
-        Sem_Pend_Self(u);                     \
+        u_sem_pend_self(u);                     \
         U_EnterCritical();                    \
         U_SCHEDULER();                        \
         U_ExitCritical();                     \
@@ -116,21 +116,21 @@ void Sem_Pend_Self(u_task* u);
  *
  * \hideinitializer
  */
-void Sem_Post(u_task* u, u_sem* s);
-void Sem_Post_To(u_task* u);
+void u_sem_post(u_task* u, u_sem* s);
+void u_sem_post_to(u_task* u);
 
 #define U_SEM_POST(s)                           \
-        Sem_Post(u,s);                          \
-        if(!u_int_nesting){U_EnterCritical();}  \
+        u_sem_post(u,s);                          \
+        if(!u_core_int_nest){U_EnterCritical();}  \
         U_SCHEDULER();                          \
-        if(!u_int_nesting){U_ExitCritical(); U_PREEMP_POINT(u);}
+        if(!u_core_int_nest){U_ExitCritical(); U_PREEMP_POINT(u);}
 
 
 #define U_SEM_POST_TO(name)                     			\
-        Sem_Post_To(U_TASK_GET(U_GET_TASK_ID(name)));       \
-        if(!u_int_nesting){U_EnterCritical();}  			\
+        u_sem_post_to(U_TASK_GET(U_GET_TASK_ID(name)));       \
+        if(!u_core_int_nest){U_EnterCritical();}  			\
         U_SCHEDULER();                          			\
-        if(!u_int_nesting){U_ExitCritical(); U_PREEMP_POINT(u);}
+        if(!u_core_int_nest){U_ExitCritical(); U_PREEMP_POINT(u);}
 
        
 

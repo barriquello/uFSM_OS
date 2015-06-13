@@ -45,8 +45,7 @@
 #include <windows.h>
 #endif
 
-#include "u-core.h"
-#include "u-time.h"
+#include "uFSMrtos.h"
 
 static unsigned long long last_time = 0;
 

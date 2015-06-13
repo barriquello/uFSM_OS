@@ -39,8 +39,7 @@
  *
  */
 
-#include "u-core.h"
-#include "u-time.h"
+#include "uFSMrtos.h"
 
 /* private data */
 static struct
@@ -168,9 +167,9 @@ void u_timer_set (u_timer p, u16 time_wait)
 
 void Timer_Pend(u_task* u, u_timer s, u16 time_wait)
 {
-      u_assert(u_int_nesting == 0); /* can not block inside an ISR */
+      u_assert(u_core_int_nest == 0); /* can not block inside an ISR */
       u_timer_set(s,time_wait);
-      s->u_id = u_curr;
+      s->u_id = u_task_curr;
       U_EnterCritical();
       RESET_READYLIST(u,s);
       U_ExitCritical();
