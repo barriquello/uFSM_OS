@@ -69,7 +69,7 @@
 
 #define LC_RESUME(s) switch(s) { case 0:
 
-#define LC_SET(s) STATIC_ASSERT(__LINE__ < MAX_LINE); s = __LINE__; case __LINE__:
+#define LC_SET(s) U_ASSERT_STATIC(__LINE__ < MAX_LINE); s = __LINE__; case __LINE__:
 
 #define LC_END(s) }
 

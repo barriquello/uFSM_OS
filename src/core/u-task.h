@@ -168,8 +168,8 @@ typedef struct{
                                RESET_READYLIST(u,s); U_SCHEDULER();   \
                                U_ExitCritical();
 
-#define U_TASK_INIT_EXT(u,p,s,z)   STATIC_ASSERT((p > 0));              \
-								   STATIC_ASSERT(p <= MAX_PRIO);      \
+#define U_TASK_INIT_EXT(u,p,s,z)   U_ASSERT_STATIC((p > 0));              \
+								   U_ASSERT_STATIC(p <= MAX_PRIO);      \
 								   u_assert(u_task_priority_list[p] == (u08)(-1));   \
 								   u_task_priority_list[p] = ++u_task_curr;           \
 								   (u)->prio = p; 							 \

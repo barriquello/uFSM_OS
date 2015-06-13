@@ -67,8 +67,8 @@ typedef struct {
  * \param p (unsigned char) The priority of the mutex.
  * \hideinitializer
  */
-#define U_MUTEX_INIT(s, p)  STATIC_ASSERT((p <= MAX_PRIO)); \
-                            STATIC_ASSERT((p > 0));            \
+#define U_MUTEX_INIT(s, p)  U_ASSERT_STATIC((p <= MAX_PRIO)); \
+                            U_ASSERT_STATIC((p > 0));            \
                             if(u_task_priority_list[p] != (u08)(-1)) for(;;);   \
                             u_task_priority_list[p] = MUTEX_PRIO;          \
                             (s)->mtx_prio = p; (s)->orig_prio = 0;    \

@@ -58,22 +58,22 @@
 #define ASSERT_CONCAT(a, b) ASSERT_CONCAT_(a, b)
 
 #if 1
-#define STATIC_ASSERT(e)  \
+#define U_ASSERT_STATIC(e)  \
     { enum { ASSERT_CONCAT(assert_line_, __LINE__) = 1/(!!((e))) }; }
 #else
-#define STATIC_ASSERT(e)	do{}while((e));
+#define U_ASSERT_STATIC(e)	do{}while((e));
 #endif
     
 #define MAX_LINE 65536   /* max number of lines of a file */
 
 #ifdef U_ASSERT_FN
 
-void compile_time_assertions(void);
+void u_assert_compile_time(void);
 
 #pragma push   
 #pragma MESSAGE DISABLE C5908 /* constant switch expression */
 
-void compile_time_assertions(void)
+void u_assert_compile_time(void)
 {
     COMPILE_TIME_ASSERT_FN((U_NUM_TASKS <= MAX_NUM_U_TASKS));  /* check max utasks number */
 }
