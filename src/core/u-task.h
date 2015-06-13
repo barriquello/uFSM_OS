@@ -220,7 +220,7 @@ typedef struct{
                         	if(u_core_int_nest == 0) U_SCHEDULER();
 
 /* macros for interrupt nesting */                        
-#if U_INT_NEST_ENABLE == 0
+#if CONF_U_CORE_INT_NEST_ENABLE == 0
 #define TEST_INT_NESTING(instr)   if(!u_core_int_nest){instr;}
 #define U_NESTING_ENABLE()
 #else

@@ -39,15 +39,15 @@
  *
  */
 
- #include "u-config.h"
- #if PLATFORM == WIN32
+#include "u-config.h"
+#if PLATFORM == WIN32
  
 #ifndef U_PORT_H_
 #define U_PORT_H_
 
 
 /* hardware dependent code */
-#define configTICK_RATE_HZ    	  1000
+#define CONF_U_TIME_TICK_RATE_HZ    	  1000
 
 #define TICKTIMER_INT_HANDLER()
 

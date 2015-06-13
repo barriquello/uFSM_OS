@@ -49,7 +49,7 @@
 #include "u-mutex.h" /* mutexes services */
 
 #if UFSMRTOS_API
-	/* module u_task */
+	/* module u-task */
     /* functions */
 	u_task_create
 	u_task_resume;
@@ -71,7 +71,7 @@
 	U_TASK_SUSPEND;
 	U_TASK_DELAY;
 
-	/* module u_core */
+	/* module u-core */
     /* functions */
 	u_core_init;
 	u_core_schedule;
@@ -80,8 +80,28 @@
 	/* const */
 	U_CORE_SCHEDULE_TABLE;
 
+	/* module u-time */
+    /* functions */
+	/* variables */
+	/* const */
+	/* macros */
 
-	/* module u_sem */
+	/* module u-sem */
+    /* functions */
+	/* variables */
+	/* const */
+	/* macros */
+
+	/* module u-mutex */
+    /* functions */
+	u_mutex_acquire;
+	u_mutex_release;
+	u_mutex_prio_ceil;
+	/* variables */
+	/* const */
+	/* macros */
+	U_MUTEX_PRIO
+
 
 #endif
 

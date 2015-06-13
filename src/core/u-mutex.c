@@ -72,7 +72,7 @@ void u_mutex_release(u_task* u, u_mutex* s)
       {
 
           U_EnterCritical();
-			  #if U_MAX_NUM_TASKS > 16
+			  #if CONF_U_TASK_MAX_NUM > 16
               /* Remove "max priority" from the Ready List*/
           	  	SET_READYLIST_PRIO((s)->orig_prio);
 			  /* Put the "original priority" into Ready List */
@@ -121,7 +121,7 @@ void u_mutex_prio_ceil(u_task* u, u_mutex* s)
       u_task_priority_list[(s)->mtx_prio] = (s)->owner;
 
       U_EnterCritical();
-			  #if U_MAX_NUM_TASKS > 16
+			  #if CONF_U_TASK_MAX_NUM > 16
 
 			  /* Remove "max priority" from the Ready List*/
 				RESET_READYLIST_PRIO((s)->orig_prio);

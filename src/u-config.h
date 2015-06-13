@@ -44,12 +44,13 @@
 
 #include "platform-conf.h"
 
-#define CONF_U_CORE_SCHED_OPT    1
-#define U_IDLE()
-#define U_INT_NEST_ENABLE       0
-#define CONF_U_TASK_STACK_SIZE  			256
-#define U_DEBUG_PRINTF			1
-#define U_MAX_NUM_TASKS			32
-#define U_STATIC_TIMERS			2
+#define CONF_U_CORE_SCHED_OPT    		  1
+#define CONF_U_CORE_INT_NEST_ENABLE       0
+#define CONF_U_TASK_STACK_SIZE   		  256
+#define CONF_U_TASK_MAX_NUM   	 		  32
+#define CONF_U_TIMERS_MAX_NUM	 		  2
+#define CONF_U_TASK_IDLE()
+
+#define U_DEBUG_PRINTF					  1
 
 #endif /* U_CONFIG_H_ */

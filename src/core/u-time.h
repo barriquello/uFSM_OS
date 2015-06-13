@@ -79,11 +79,11 @@ typedef struct
 } timer_size_struct_t;
 
 
-#define U_NUM_TIMERS_INSTALL  (sizeof(timer_size_struct_t) + (sizeof(time_size_struct_t)+1))
+#define U_NUM_TASK_TIMERS  (sizeof(timer_size_struct_t) + (sizeof(time_size_struct_t)+1))
 
 /* timers list data struct */  
 typedef struct{    
-	u_timer    timers [U_NUM_TIMERS_INSTALL + U_STATIC_TIMERS];
+	u_timer    timers [U_NUM_TASK_TIMERS + CONF_U_TIMERS_MAX_NUM];
     u08    	   count;
 }u_tmr;
 

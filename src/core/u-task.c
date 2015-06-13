@@ -87,7 +87,7 @@ void u_task_resume(prio_t p)
 /* it can be used for background work */
 U_TASK(u_task_idle)
 {
-  U_IDLE();
+  CONF_U_TASK_IDLE();
   return;
 }
 
