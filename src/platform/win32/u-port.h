@@ -51,9 +51,11 @@
 
 #define TICKTIMER_INT_HANDLER()
 
-void TickTimerInit(void);
-void TickTimer(void);
+extern  void port_timer_win_init(void);
+extern int port_timer_win(void);
 
+#define PORT_U_TIME_TICK_INIT()		port_timer_win_init()
+#define PORT_U_TIME_TICK()			port_timer_win()
 /******************************************/
 /* hardware dependent - must be configured */
 

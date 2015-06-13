@@ -107,6 +107,8 @@ void u_clock_set(u_clock_t time);
 void u_tick_counter_inc(void);
 
 void u_time_init(void);
+void u_time_tick_init(void);
+void u_time_tick(void);
 void u_time_manager(void);
 void u_timer_set (u_timer p, u16 time_wait);
 

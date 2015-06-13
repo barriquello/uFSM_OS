@@ -44,7 +44,7 @@
 
 #include "lc.h"
 #include "u-config.h"
-#include "u-assert.h"
+#include "lib/u-assert.h"
 
 #include <string.h>
 

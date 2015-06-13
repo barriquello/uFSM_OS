@@ -65,7 +65,7 @@ u_mutex mutex_a, mutex_b;
 
 /* Compile-time error checking */
 #define U_ASSERT_FN
-#include "u-assert.h"
+#include "lib/u-assert.h"
 
 
 int main(void)

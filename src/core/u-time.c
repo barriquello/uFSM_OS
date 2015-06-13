@@ -95,7 +95,30 @@ void u_time_init(void)
    u_tmr_list.future =  &u_tmr_pong;
    u_tickcounter = 0;
    u_clock_set(0);
-   TickTimerInit();
+   u_time_tick_init();
+}
+
+
+void u_time_tick_init(void)
+{
+	PORT_U_TIME_TICK_INIT();
+}
+
+void u_time_tick(void)
+{
+  U_INT_ENTER();
+
+  TICKTIMER_INT_HANDLER();
+
+  U_NESTING_ENABLE();
+
+  if(PORT_U_TIME_TICK() == 1)
+  {
+	  u_tick_counter_inc(); /* increment tick counter */
+  }
+
+  U_INT_EXIT();
+
 }
 
 

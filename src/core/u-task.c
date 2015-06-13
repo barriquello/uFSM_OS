@@ -116,6 +116,6 @@ U_TASK(u_task_idle)
 /* it can be used for instance to emulate interrupts */
 U_TASK(u_task_main)
 {
-	TickTimer();
+	u_time_tick();
 	return;
 }

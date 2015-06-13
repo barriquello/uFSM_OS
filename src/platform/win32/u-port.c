@@ -49,6 +49,11 @@
 
 static unsigned long long last_time = 0;
 
+void port_timer_win_init(void)
+{
+	last_time = GetTickCount();
+}
+
 int port_timer_win(void)
 {
 	unsigned long long time;
@@ -66,27 +71,6 @@ int port_timer_win(void)
 	return 0;
 }
 
-void TickTimerInit(void)
-{
-	last_time = GetTickCount();
-}
-
-void TickTimer(void)
-{
-  U_INT_ENTER();
-
-  TICKTIMER_INT_HANDLER();
-
-  U_NESTING_ENABLE();
-
-  if(port_timer_win() == 1)
-  {
-	  u_tick_counter_inc(); /* increment tick counter */
-  }
-
-  U_INT_EXIT();
-
-}
 #endif
 
 

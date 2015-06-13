@@ -57,7 +57,7 @@
 #ifndef __LC_SWITCH_H__
 #define __LC_SWITCH_H__
 
-#include "u-assert.h"
+#include "lib/u-assert.h"
 
 /* WARNING! lc implementation using switch() does not work if an
    LC_SET() is done within another switch() statement! */
