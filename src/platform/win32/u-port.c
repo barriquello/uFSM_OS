@@ -38,8 +38,8 @@
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
- #include "platform-conf.h"
- #if PLATFORM == WIN32
+#include "platform-conf.h"
+#if PLATFORM == WIN32
  
 #ifdef _WIN32
 #include <windows.h>
