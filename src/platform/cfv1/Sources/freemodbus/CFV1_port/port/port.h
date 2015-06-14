@@ -67,13 +67,13 @@ static union
 
 typedef uint8_t                 BOOL;
 
-#if 0
+#if 1
 typedef unsigned char           UCHAR;
 typedef char                    CHAR;
-typedef uint16_t                USHORT;
+//typedef uint16_t                USHORT;
 typedef int16_t                 SHORT;
-typedef uint32_t                ULONG;
-typedef int32_t                 LONG;
+//typedef uint32_t                ULONG;
+//typedef int32_t                 LONG;
 #endif
 
 #ifndef TRUE

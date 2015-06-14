@@ -67,9 +67,17 @@ u_mutex mutex_a, mutex_b;
 #define U_ASSERT_FN
 #include "lib/u-assert.h"
 
-
+#include "drivers.h"
+ 
+#if ((defined _MCF51MM256_H) || (defined _MCF51JE256_H) || (defined _MCF51JE128_H))
+const unsigned char boot:0x040A = 0x00;   //zero out checksum to bypass boot loader
+#endif /* (defined _MCF51MM256_H) || (defined _MCF51JE256_H) */
+ 
 void main(void)
 {
+
+ /* initial the system */
+  Init_Sys();
 
   U_INIT();  /* Initialize core variables */
   
@@ -92,6 +100,10 @@ void main(void)
 }
 
 
+void BRTOS_TimerHook(void)
+{
+
+}
 
 
 

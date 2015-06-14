@@ -21,8 +21,7 @@ extern "C"
 /* unsecure flash */
 //const INT32U sec@0x040C = 0xFFFFFF00;  
 //const byte CHKSBYP1_INIT @0x0000040A = 0x00;
-
-const unsigned char boot:0x040A = 0x00;   //zero out checksum to bypass boot loader
+//const unsigned char boot:0x040A = 0x00;   //zero out checksum to bypass boot loader
 
 
 #endif /* (defined _MCF51MM256_H) || (defined _MCF51JE256_H) */

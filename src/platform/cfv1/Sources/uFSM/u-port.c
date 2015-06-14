@@ -75,7 +75,12 @@ int port_timer(void)
 	return 0;
 }
 
-interrupt 7 void Timer_ISR(void) 
+#if (NESTING_INT == 1)
+#pragma TRAP_PROC
+void TickTimer(void)
+#else
+interrupt void TickTimer(void)
+#endif
 {	  	
 	TPM1SC_TOF = 0;  /*  clear ISR */
 	tick_counter++;
