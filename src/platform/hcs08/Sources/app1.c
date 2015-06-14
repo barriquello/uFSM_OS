@@ -1,4 +1,3 @@
-
  /*
  * Copyright (c) 2015, Universidade Federal de Santa Maria.
  * All rights reserved.
@@ -32,14 +31,37 @@
  * Author: Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-/*
- * platforms.h
+/**
+ * \file app1.c
+ * App demo code
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef PLATFORM_PLATFORMS_H_
-#define PLATFORM_PLATFORMS_H_
+#include "ufsm-rtos.h"
+#include <stdlib.h>
 
-#define WIN32		1
+extern u_sem semtest;
+extern u_sem semtest_ok;
 
-#endif /* PLATFORM_PLATFORMS_H_ */
+U_TASK(sem_test)
+{
+
+  /* A utask must begin with U_BEGIN() */
+  U_BEGIN();
+
+  /* We loop forever here. */
+  for(;;){
+
+    /* Wait a semaphore post */
+    U_SEM_PEND(&semtest);
+    	U_PRINTF("Test sem pend/post ok! \n");
+    U_SEM_POST(&semtest_ok);
+
+    /* And we loop. */
+  }
+
+  /* All utask end with U_END() */
+  U_END();
+}

@@ -52,7 +52,7 @@
 #include <stdio.h>
 #define U_PRINTF(...)	printf(__VA_ARGS__); fflush(stdout);
 #else
-#define U_PRINTF(...)	do{}while(0);
+#define U_PRINTF(x)	   ;//do{}while(0);
 #endif
 
 
@@ -261,8 +261,8 @@ typedef struct{
 
 #define U_TASK_RESUME_FROM_CB(name)		U_TASK_RESUME_ID_FROM_CB((U_GET_TASK_ID(name)))
 
-#define U_PUSH(u,v,s)		do{memcpy((u)->stk.top, &(v),s); (u)->stk.top+=s; (u)->stk.size += s;}while(0);
-#define U_POP(u,v,s)		do{(u)->stk.top-=s; memcpy(&(v),(u)->stk.top,(s));  (u)->stk.size-=s;}while(0);
+#define U_PUSH(u,v,s)		do{(void)memcpy((u)->stk.top, &(v),s); (u)->stk.top+=s; (u)->stk.size += s;}while(0);
+#define U_POP(u,v,s)		do{(u)->stk.top-=s; (void)memcpy(&(v),(u)->stk.top,(s));  (u)->stk.size-=s;}while(0);
 
 #define PUSH(v)		 U_PUSH(u,v,sizeof(v))
 #define POP(v)		 U_POP(u,v,sizeof(v))

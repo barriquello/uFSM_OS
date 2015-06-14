@@ -10,7 +10,6 @@
 
 /* add compatibiity with Contiki */
 #include "ufsm-rtos.h"
-#include <stdint.h>
 #include "sys/pt.h"
 #include "lib/memb.h"
 
