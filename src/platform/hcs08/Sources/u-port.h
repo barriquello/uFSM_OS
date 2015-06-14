@@ -50,6 +50,7 @@
 
 
 /* hardware dependent code */
+#define CONF_CPU_CLOCK_HZ				  4139304
 #define CONF_U_TIME_TICK_RATE_HZ    	  1000
 
 #define TICKTIMER_INT_HANDLER()
@@ -64,8 +65,8 @@ extern int port_timer(void);
 
 
 /* ported types */
-typedef char 		uint8_t;
-typedef signed char int8_t;
+typedef char 			uint8_t;
+typedef signed char 	int8_t;
 typedef unsigned int    uint16_t;
 typedef int       		int16_t;
 typedef unsigned long   uint32_t;
@@ -79,12 +80,9 @@ typedef int16_t       s16;
 typedef uint32_t   	  u32;
 typedef int32_t       s32;
 
-
-#define U_EnterCritical()
-#define U_EnterCritical()
-#define U_ExitCritical()
-#define U_ExitCritical()
-#define U_Enable_Nesting()  	U_ExitCritical();
+#define U_EnterCritical()	DisableInterrupts;
+#define U_ExitCritical()	EnableInterrupts;
+#define U_Enable_Nesting()  U_ExitCritical();
 
 #include <assert.h>
 #if 0
@@ -95,6 +93,18 @@ typedef int32_t       s32;
 						}while(0);
 #else
 #define u_assert(e)  	;
+#endif
+
+#ifndef U_DEBUG_PRINTF
+#define U_DEBUG_PRINTF					  1
+#endif
+
+#if U_DEBUG_PRINTF == 1
+#include <stdio.h>
+#include <stdarg.h>
+#define U_PRINTF(x)	 (void)printf(x);
+#else
+#define U_PRINTF(x)	   ;//do{}while(0);
 #endif
 
 #endif /* U_PORT_H_ */

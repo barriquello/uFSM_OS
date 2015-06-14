@@ -43,24 +43,32 @@
  
 #include "ufsm-rtos.h"
 
-static unsigned long long last_time = 0;
+static u16 tick_counter = 0;
 
 void port_timer_init(void)
 {
-	last_time = 0;
+		
+  TPM1SC = 0x00;                       				    /* Para e zera contador */
+  TPM1MOD = (CONF_CPU_CLOCK_HZ / CONF_U_TIME_TICK_RATE_HZ); 	/* Configura o periodo */
+  TPM1SC = 0x48;                       					/* Dispara o temporizador e habilita ISR */
 }
 
+#include <time.h>
 int port_timer(void)
 {
-	unsigned long long time;
-	unsigned long long time_diff;
+	u16 time_diff;
 
-	//time = GetTickCount();
+	__RESET_WATCHDOG();
 	
-	time_diff = time - last_time;
-	last_time = time;
+	DisableInterrupts;
+	
+	time_diff = tick_counter;	
+	tick_counter = 0;	
+	
+	EnableInterrupts;	
 
-	u_clock_set(u_clock_get() + time_diff/10);
+	u_clock_set(u_clock_get() + time_diff);
+	
 	if(time_diff > 0)
 	{
 		return 1;
@@ -68,6 +76,23 @@ int port_timer(void)
 	return 0;
 }
 
+interrupt 7 void Timer_ISR(void) 
+{	  	
+	TPM1SC_TOF = 0;  /*  clear ISR */
+	tick_counter++;
+}
+
+/* emulate stdout */
+static char term_out[128];
+static char term_out_idx = 0;
+void TERMIO_PutChar(char c)
+{
+	term_out[term_out_idx++] = c;
+	if(term_out_idx >= sizeof(term_out))
+	{
+		term_out_idx = 0;
+	}
+}
 
 
 #endif

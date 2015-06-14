@@ -44,7 +44,7 @@
 
 #include "ufsm-rtos.h"
 
-typedef unsigned long long u_clock_t;
+typedef clock_t 		   u_clock_t;
 typedef u16 			   u_tick_t;
 
 U_EXTERN volatile u_tick_t  u_tickcounter;
@@ -93,7 +93,7 @@ U_EXTERN const c_timer_t U_TMR[];
 #define U_TIMER_INFO(name) 	 		u08 name##_id(u08 id)	\
 { static u08 u_id = 0; if(id != 0) {u_id = id;} return u_id; }
 #define U_GET_TIMER_ID(name) 		(name##_id)(0)
-#define U_TIMER_INIT(s,n,t)      	u_timer_set(s,t); (s)->u_id = (MAX_ID + (++u_task_next)); n##_id((s)->u_id);
+#define U_TIMER_INIT(s,n,t)      	u_timer_set(s,t); (s)->u_id = (MAX_ID + (++u_task_next)); (void)n##_id((s)->u_id);
 
 
 #define TIMER_START(time_wait, cb)	Timer_Start(U_TMR[U_GET_TASK_ID(cb) - MAX_ID-1].timer, time_wait);
@@ -116,7 +116,7 @@ void Timer_Pend(u_task* u, u_timer s, u16 time_wait);
 void Timer_Start(u_timer s, u16 time_wait);
 
 #define U_TIMER_PEND(s,t)	                    \
-		Timer_Pend(u,s,t)                       \
+		Timer_Pend(u,s,t);                       \
         U_EnterCritical();                    	\
         U_SCHEDULER();                          \
         U_ExitCritical();                     	\

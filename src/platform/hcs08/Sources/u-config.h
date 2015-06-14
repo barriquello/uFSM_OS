@@ -51,6 +51,6 @@
 #define CONF_U_TIMERS_MAX_NUM	 		  2
 #define CONF_U_TASK_IDLE()
 
-#define U_DEBUG_PRINTF					  0
+#define U_DEBUG_PRINTF					  1
 
 #endif /* U_CONFIG_H_ */

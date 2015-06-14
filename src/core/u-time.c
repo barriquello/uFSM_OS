@@ -122,13 +122,6 @@ void u_time_tick(void)
 }
 
 
-void u_delay(u_task* u, u16 ticks)
-{
-
-  
-
-}
-
 u_tick_t u_tick_counter_get(void)
 {
 	return u_tickcounter;
@@ -277,8 +270,8 @@ timer_loop:
         void* tmp = u_tmr_list.current;
         u_tmr_list.current = u_tmr_list.future;
         u_tmr_list.future = tmp;
-        list = u_tmr_list.current;
-        p=list->timers[1];
+        //list = u_tmr_list.current;
+        //p=list->timers[1];
       }
       else
       {

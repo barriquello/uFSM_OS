@@ -48,6 +48,7 @@
 #include "u-time.h" /* time and timer services */
 #include "u-mutex.h" /* mutexes services */
 
+#define UFSMRTOS_API 0
 #if UFSMRTOS_API
 	/* module u-task */
     /* functions */

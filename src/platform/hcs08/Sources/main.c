@@ -68,7 +68,7 @@ u_mutex mutex_a, mutex_b;
 #include "lib/u-assert.h"
 
 
-int main(void)
+void main(void)
 {
 
   U_INIT();  /* Initialize core variables */
@@ -82,7 +82,7 @@ int main(void)
   /* Then we run the utasks using priority scheduling, forever */
   U_RUN();
    
-  return 0;
+  //return 0;
   
   for(;;)
   {

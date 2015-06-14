@@ -48,11 +48,14 @@
 
 #include <string.h>
 
+#ifndef U_PRINTF
 #if U_DEBUG_PRINTF == 1
 #include <stdio.h>
+#include <stdarg.h>
 #define U_PRINTF(...)	printf(__VA_ARGS__); fflush(stdout);
 #else
 #define U_PRINTF(x)	   ;//do{}while(0);
+#endif
 #endif
 
 
@@ -168,15 +171,15 @@ typedef struct{
                                RESET_READYLIST(u,s); U_SCHEDULER();   \
                                U_ExitCritical();
 
-#define U_TASK_INIT_EXT(u,p,s,z)   U_ASSERT_STATIC((p > 0));              \
+#define U_TASK_INIT_EXT(u,p,s,z)   U_ASSERT_STATIC((p > 0));            \
 								   U_ASSERT_STATIC(p <= MAX_PRIO);      \
 								   u_assert(u_task_priority_list[p] == (u08)(-1));   \
 								   u_task_priority_list[p] = ++u_task_curr;           \
 								   (u)->prio = p; 							 \
-								   if(s) {SET_READYLIST_PRIO(p);}	 			\
+								   if(s) {SET_READYLIST_PRIO((u)->prio);}	 			\
 								   if(z) { (u)->stk.top = &u_task_stack[u_task_stack_cnt];  \
-								   	   	   (u)->stk.size = 0; u_task_stack_cnt += z; } \
-								   u_assert(u_task_stack_cnt <= CONF_U_TASK_STACK_SIZE);   \
+								   	   	   (u)->stk.size = 0; u_task_stack_cnt += z; } 		\
+								   u_assert(u_task_stack_cnt <= CONF_U_TASK_STACK_SIZE);    
 
 
 
@@ -188,7 +191,7 @@ typedef struct{
 { static u08 u_id = 0; if(id != 0) {u_id = id;} return u_id; }
 
 #define U_TASK(name) 			U_TASK_INFO(name) void name(void)
-#define U_TASK_INIT(n,u,p,s,z) 	U_TASK_INIT_EXT(u,p,s,z); n##_id(u_task_curr); LC_INIT((u)->lc);
+#define U_TASK_INIT(n,u,p,s,z) 	U_TASK_INIT_EXT(u,p,s,z); (void)n##_id(u_task_curr); LC_INIT((u)->lc);
 #define U_BEGIN()				U_TASK_BEGIN_EXT(u); { LC_RESUME((u)->lc)
 #define U_END()					LC_END((u)->lc); U_TASK_END_EXT(); LC_INIT((u)->lc); return;}
 #define U_WAIT_UNTIL 			U_TASK_WAIT_UNTIL
@@ -232,7 +235,7 @@ typedef struct{
 #define U_TASK_GET_PRIO(id)			(((u_task *)(U_TCB[(id)].arg))->prio)
 
 #define U_TASK_SUSPEND() 	                  \
-		u_task_suspend(u);                      \
+		u_task_suspend(u);                    \
         U_EnterCritical();                    \
         U_SCHEDULER();                        \
         U_ExitCritical();                     \
@@ -242,7 +245,7 @@ typedef struct{
 		U_TASK_SUSPEND(U_GET_TASK_ID(id));
 
 #define U_TASK_RESUME_PRIO(p) 	             \
-		u_task_resume(p);                      \
+		u_task_resume(p);                    \
 		TEST_INT_NESTING(U_EnterCritical()); \
         U_SCHEDULER();                       \
         TEST_INT_NESTING(U_ExitCritical());  \
@@ -257,7 +260,7 @@ typedef struct{
 		u_task_resume(p);                      \
 
 #define U_TASK_RESUME_ID_FROM_CB(id)          \
-		U_TASK_RESUME_PRIO_FROM_CB((U_TASK_GET_PRIO(id)));
+		U_TASK_RESUME_PRIO_FROM_CB((U_TASK_GET_PRIO(id)))
 
 #define U_TASK_RESUME_FROM_CB(name)		U_TASK_RESUME_ID_FROM_CB((U_GET_TASK_ID(name)))
 
@@ -268,7 +271,7 @@ typedef struct{
 #define POP(v)		 U_POP(u,v,sizeof(v))
 
 #define U_TASK_DELAY(t)	                        \
-		Timer_Pend(u,&((u)->tmr),t)             \
+		Timer_Pend(u,&((u)->tmr),t);             \
         U_EnterCritical();                    	\
         U_SCHEDULER();                          \
         U_ExitCritical();                     	\
