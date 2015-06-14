@@ -128,11 +128,14 @@ typedef struct
 #define EXPAND_AS_TIMERJUMPTABLE(a,c,d) {a,&(LC_VAR(a))},
 
 #ifdef DEFINE_U_VARIABLES
+
+#if U_TIMER_TABLE_ENABLE
 /* declare a table of function pointers */ 
 const c_timer_t U_TMR[U_NUM_TIMERS] =
 {
     U_TIMER_TABLE(EXPAND_AS_TIMERJUMPTABLE)
 };
+#endif
 #endif
 
 #endif

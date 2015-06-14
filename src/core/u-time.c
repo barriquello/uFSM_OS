@@ -214,31 +214,36 @@ timer_loop:
 	{
 
 		/*  some timer has expired */
-		if(p->u_id > MAX_ID && U_TMR[(p->u_id - MAX_ID-1)].cb != NULL) /*  is it a callback timer ? */
+		if(p->u_id > MAX_ID) /*  is it a callback timer ? */
 		{
-			repeat = (u_tick_t)(U_TMR[p->u_id - MAX_ID-1].cb()); /* execute callback */
-			if (repeat > 0)
-			{ /* needs to repeat after "repeat" time ? */
-			  timeout = (u32)((u32)tickcount + (u32)repeat);
-			  if (timeout >= TICK_COUNT_OVERFLOW)
-			  {
-				p->timeout = (u_tick_t)(timeout - TICK_COUNT_OVERFLOW);
-				list_tmp = u_tmr_list.future; // add into future list
-				list_tmp->timers[++list_tmp->count] = p; // insert at the end
-				HeapUp(list_tmp->timers,list_tmp->count);
-				list->timers[1]=list->timers[list->count]; // remove from current list
-				list->timers[list->count] = NULL;
-				list->count--;
-			  }
-			  else
-			  {
-				p->timeout = (u_tick_t)timeout;
-			  }
-			}
-			else
+			#if U_TIMER_TABLE_ENABLE
+			if(U_TMR[(p->u_id - MAX_ID-1)].cb != NULL)
 			{
-				goto remove_timer;
+				repeat = (u_tick_t)(U_TMR[p->u_id - MAX_ID-1].cb()); /* execute callback */
+				if (repeat > 0)
+				{ /* needs to repeat after "repeat" time ? */
+				  timeout = (u32)((u32)tickcount + (u32)repeat);
+				  if (timeout >= TICK_COUNT_OVERFLOW)
+				  {
+					p->timeout = (u_tick_t)(timeout - TICK_COUNT_OVERFLOW);
+					list_tmp = u_tmr_list.future; // add into future list
+					list_tmp->timers[++list_tmp->count] = p; // insert at the end
+					HeapUp(list_tmp->timers,list_tmp->count);
+					list->timers[1]=list->timers[list->count]; // remove from current list
+					list->timers[list->count] = NULL;
+					list->count--;
+				  }
+				  else
+				  {
+					p->timeout = (u_tick_t)timeout;
+				  }
+				}
+				else
+				{
+					goto remove_timer;
+				}
 			}
+			#endif
 		}else
 		{
 			/* it is task timer ? */

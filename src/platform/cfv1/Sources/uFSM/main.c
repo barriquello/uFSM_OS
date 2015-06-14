@@ -32,23 +32,75 @@
  *
  */
 /**
- * \file install_apps
- * Example of table for creating utasks, semaphores, timers, etc... using xmacros.
- * See: http://en.wikipedia.org/wiki/X_Macro
+ * \file main.c
+ * Entry point, system initialization
  * \author
  * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-/* Table used to declare utasks state variables, functions and priorities */
-#define U_TASK_TABLE(ENTRY)     
+/* We must always include ufsm-rtos.h in our utasks code. */
+#include "ufsm-rtos.h"
 
-/* Table used to declare semaphores */
-#define U_SEM_TABLE(ENTRY)         
 
-/* Table used to declare timers    */
-#define U_TIMER_TABLE_ENABLE 	0
-#define U_TIMER_TABLE(ENTRY)        
+#ifdef __cplusplus
+ extern "C"
+#endif
+
+/**
+ * Finally, we have the main loop. Here is where the utasks are
+ * initialized and scheduled. First, however, we define the
+ * utask state variables, functions and priorities  in the "U_TASK_TABLE"
+ * by including 'install_apps.h".
+ */
+
+#include "install-apps.h"
+
+#define DEFINE_U_VARIABLES
+#include "u-xmacro.h"
+
+
+u_mutex mutex_a, mutex_b;
+
+
+/* Compile-time error checking */
+#define U_ASSERT_FN
+#include "lib/u-assert.h"
+
+
+void main(void)
+{
+
+  U_INIT();  /* Initialize core variables */
+  
+  /* Initialize the utasks,  semaphores  and timers with U_TASK_INIT(). */
+  #include "u-init-xmacro.h"
+  
+  /* Initialize the a mutex with U_MUTEX_INIT(). */
+  U_MUTEX_INIT(&mutex_a,9);
+ 
+  /* Then we run the utasks using priority scheduling, forever */
+  U_RUN();
+   
+  //return 0;
+  
+  for(;;)
+  {
+
+  } /* loop forever */
+
+}
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 

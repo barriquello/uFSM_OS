@@ -73,13 +73,21 @@ typedef struct{
     U_TASK_TABLE(_EXPAND_AS_STRUCT)
 } time_size_struct_t;
 
+#if U_TIMER_TABLE_ENABLE
 typedef struct
 {
     U_TIMER_TABLE(_EXPAND_AS_TIMERSTRUCT)
 } timer_size_struct_t;
 
+U_EXTERN const c_timer_t U_TMR[];
+#define NUM_TIMERS		sizeof(timer_size_struct_t) 
+#else
 
-#define U_NUM_TASK_TIMERS  (sizeof(timer_size_struct_t) + (sizeof(time_size_struct_t)+1))
+#define NUM_TIMERS	0
+
+#endif
+
+#define U_NUM_TASK_TIMERS  (NUM_TIMERS + (sizeof(time_size_struct_t)+1))
 
 /* timers list data struct */  
 typedef struct{    
@@ -87,7 +95,6 @@ typedef struct{
     u08    	   count;
 }u_tmr;
 
-U_EXTERN const c_timer_t U_TMR[];
 
 #define U_TIMER(name)  				U_TIMER_INFO(name) u16 (name) (void)
 #define U_TIMER_INFO(name) 	 		u08 name##_id(u08 id)	\

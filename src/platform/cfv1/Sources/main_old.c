@@ -33,7 +33,7 @@ const unsigned char boot:0x040A = 0x00;   //zero out checksum to bypass boot loa
  * @param       None
  * @return      None
  *****************************************************************************/
-void main(void)
+void main_old(void)
 {
 	
 #if 1
