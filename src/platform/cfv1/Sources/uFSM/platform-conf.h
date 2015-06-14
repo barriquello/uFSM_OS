@@ -1,4 +1,3 @@
-
  /*
  * Copyright (c) 2015, Universidade Federal de Santa Maria.
  * All rights reserved.
@@ -33,15 +32,19 @@
  *
  */
 /*
- * platforms.h
+ * platform_conf.h
  *
  */
 
-#ifndef PLATFORM_PLATFORMS_H_
-#define PLATFORM_PLATFORMS_H_
+#ifndef PLATFORM_CONF_H_
+#define PLATFORM_CONF_H_
 
-#define WIN32		1
-#define HCS08		2
-#define CFV1		3
+#include "platforms.h"
+#define  PLATFORM 	CFV1
 
-#endif /* PLATFORM_PLATFORMS_H_ */
+#if PLATFORM == CFV1
+#include "u-port.h"
+#endif
+
+
+#endif /* PLATFORM_CONF_H_ */

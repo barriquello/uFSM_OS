@@ -1,4 +1,3 @@
-
  /*
  * Copyright (c) 2015, Universidade Federal de Santa Maria.
  * All rights reserved.
@@ -32,16 +31,23 @@
  * Author: Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-/*
- * platforms.h
+/**
+ * \file install_apps
+ * Example of table for creating utasks, semaphores, timers, etc... using xmacros.
+ * See: http://en.wikipedia.org/wiki/X_Macro
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef PLATFORM_PLATFORMS_H_
-#define PLATFORM_PLATFORMS_H_
+/* Table used to declare utasks state variables, functions and priorities */
+#define U_TASK_TABLE(ENTRY)     
 
-#define WIN32		1
-#define HCS08		2
-#define CFV1		3
+/* Table used to declare semaphores */
+#define U_SEM_TABLE(ENTRY)         
 
-#endif /* PLATFORM_PLATFORMS_H_ */
+/* Table used to declare timers    */
+#define U_TIMER_TABLE(ENTRY)        
+
+
+

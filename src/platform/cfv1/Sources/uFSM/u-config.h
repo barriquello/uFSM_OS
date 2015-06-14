@@ -1,4 +1,3 @@
-
  /*
  * Copyright (c) 2015, Universidade Federal de Santa Maria.
  * All rights reserved.
@@ -32,16 +31,26 @@
  * Author: Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-/*
- * platforms.h
+/**
+ * \file u-config.h
+ * System configuration
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
 
-#ifndef PLATFORM_PLATFORMS_H_
-#define PLATFORM_PLATFORMS_H_
+#ifndef U_CONFIG_H_
+#define U_CONFIG_H_
 
-#define WIN32		1
-#define HCS08		2
-#define CFV1		3
+#include "platform-conf.h"
 
-#endif /* PLATFORM_PLATFORMS_H_ */
+#define CONF_U_CORE_SCHED_OPT    		  1
+#define CONF_U_CORE_INT_NEST_ENABLE       0
+#define CONF_U_TASK_STACK_SIZE   		  256
+#define CONF_U_TASK_MAX_NUM   	 		  32
+#define CONF_U_TIMERS_MAX_NUM	 		  2
+#define CONF_U_TASK_IDLE()
+
+#define U_DEBUG_PRINTF					  1
+
+#endif /* U_CONFIG_H_ */

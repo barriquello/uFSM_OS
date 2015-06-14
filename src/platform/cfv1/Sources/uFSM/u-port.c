@@ -1,4 +1,3 @@
-
  /*
  * Copyright (c) 2015, Universidade Federal de Santa Maria.
  * All rights reserved.
@@ -32,16 +31,69 @@
  * Author: Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
-/*
- * platforms.h
+/**
+ * \file u-port.c
+ * Platform dependent code
+ * \author
+ * Carlos H. Barriquello <barriquello@gmail.com>
  *
  */
+#include "platform-conf.h"
+#if PLATFORM == CFV1
+ 
+#include "ufsm-rtos.h"
 
-#ifndef PLATFORM_PLATFORMS_H_
-#define PLATFORM_PLATFORMS_H_
+static u16 tick_counter = 0;
 
-#define WIN32		1
-#define HCS08		2
-#define CFV1		3
+void port_timer_init(void)
+{
+		
+  TPM1SC = 0x00;                       				    /* Para e zera contador */
+  TPM1MOD = (CONF_CPU_CLOCK_HZ / CONF_U_TIME_TICK_RATE_HZ); 	/* Configura o periodo */
+  TPM1SC = 0x48;                       					/* Dispara o temporizador e habilita ISR */
+}
 
-#endif /* PLATFORM_PLATFORMS_H_ */
+int port_timer(void)
+{
+	u16 time_diff;
+
+	__RESET_WATCHDOG();
+	
+	DisableInterrupts;
+	
+	time_diff = tick_counter;	
+	tick_counter = 0;	
+	
+	EnableInterrupts;	
+
+	u_clock_set(u_clock_get() + time_diff);
+	
+	if(time_diff > 0)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+interrupt 7 void Timer_ISR(void) 
+{	  	
+	TPM1SC_TOF = 0;  /*  clear ISR */
+	tick_counter++;
+}
+
+/* emulate stdout */
+static char term_out[128];
+static char term_out_idx = 0;
+void TERMIO_PutChar(char c)
+{
+	term_out[term_out_idx++] = c;
+	if(term_out_idx >= sizeof(term_out))
+	{
+		term_out_idx = 0;
+	}
+}
+
+
+#endif
+
+

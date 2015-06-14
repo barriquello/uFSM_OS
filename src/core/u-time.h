@@ -44,8 +44,8 @@
 
 #include "ufsm-rtos.h"
 
-typedef clock_t 		   u_clock_t;
-typedef u16 			   u_tick_t;
+typedef u32 	    u_clock_t;
+typedef u16 		u_tick_t;
 
 U_EXTERN volatile u_tick_t  u_tickcounter;
 U_EXTERN volatile u_clock_t u_clock;
