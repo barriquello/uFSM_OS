@@ -53,4 +53,6 @@
 
 #define U_DEBUG_PRINTF					  1
 
+#define U_TIMER_TABLE_ENABLE			  1
+
 #endif /* U_CONFIG_H_ */
