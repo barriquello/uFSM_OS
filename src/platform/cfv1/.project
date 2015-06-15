@@ -24,19 +24,29 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>brtos</name>
+			<type>2</type>
+			<locationURI>$%7BPARENT-4-PROJECT_LOC%7D/brtos</locationURI>
+		</link>
+		<link>
 			<name>core</name>
 			<type>2</type>
-			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/core</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/core</locationURI>
+		</link>
+		<link>
+			<name>hal</name>
+			<type>2</type>
+			<locationURI>$%7BPARENT-4-PROJECT_LOC%7D/hal</locationURI>
 		</link>
 		<link>
 			<name>lc</name>
 			<type>2</type>
-			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/lc</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/lc</locationURI>
 		</link>
 		<link>
 			<name>xmacro</name>
 			<type>2</type>
-			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/xmacro</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/xmacro</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
