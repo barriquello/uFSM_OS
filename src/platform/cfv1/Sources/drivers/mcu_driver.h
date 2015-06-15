@@ -1,7 +1,7 @@
 
 #include "types.h"
 #include "derivative.h" /* include peripheral declarations */
-#include "user_config.h"
+//#include "user_config.h"
 
 /*****************************************************************************
  * Global Functions Prototypes
