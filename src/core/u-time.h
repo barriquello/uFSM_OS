@@ -123,7 +123,7 @@ void Timer_Pend(u_task* u, u_timer s, u16 time_wait);
 void Timer_Start(u_timer s, u16 time_wait);
 
 #define U_TIMER_PEND(s,t)	                    \
-		Timer_Pend(u,s,t);                       \
+		Timer_Pend(u,s,t);                      \
         U_EnterCritical();                    	\
         U_SCHEDULER();                          \
         U_ExitCritical();                     	\

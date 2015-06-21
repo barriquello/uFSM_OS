@@ -68,7 +68,7 @@ typedef int16_t       s16;
 typedef uint32_t   	  u32;
 typedef int32_t       s32;
 
-typedef unsigned long long clock_t;
+//typedef unsigned long long clock_time_t;
 
 #define U_EnterCritical()
 #define U_EnterCritical()

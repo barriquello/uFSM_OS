@@ -1,6 +1,6 @@
 #include "dev/nullradio.h"
 
-
+#if 0
 /*---------------------------------------------------------------------------*/
 static int
 init(void)
@@ -105,3 +105,4 @@ const struct radio_driver nullradio_driver =
     set_object
   };
 /*---------------------------------------------------------------------------*/
+#endif

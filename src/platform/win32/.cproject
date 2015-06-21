@@ -34,7 +34,9 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../xmacro&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../lc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../platform&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/../../contiki-compat&quot;"/>
 									<listOptionValue builtIn="false" value="../../../"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/contiki-compat-cpu&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.dialect.std.1291787196" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.nostdinc.1030202611" name="Do not search system directories (-nostdinc)" superClass="gnu.c.compiler.option.preprocessor.nostdinc" value="false" valueType="boolean"/>
@@ -42,6 +44,10 @@
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1291194588" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.2135625829" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug">
+								<option id="gnu.c.link.option.libs.1785475560" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ws2_32"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="iphlpapi"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.283151545" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -51,7 +57,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="xmacro|lc|core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="contiki-compat|xmacro|lc|core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="net/ip64/ip64-dns64.c|net/ip64/ip64-dhcpc.c|net/ip64/ip64-slip-interface.c|net/ip64/ip64-ipv4-dhcp.c|net/ip64/ip64-eth-interface.c|net/ip64/ip64-arp.c|net/ip/dhcpc.c|net/ip64/ip64.c|net/http-socket/http-socket.c|net/rpl/rpl-timers.c|net/rpl/rpl-of0.c|net/rpl/rpl-mrhof.c|net/rpl/rpl-icmp6.c|net/rpl/rpl-dag-root.c|net/rpl/rpl-dag.c|net/rpl/rpl.c|net/rpl/rpl-ext-header.c|net/ipv6|net/ipv6/uip-nd6.c|net/ipv6/uip-icmp6.c|net/ipv6/multicast/roll-tm.c|net/ipv6/uip6.c|lib/sensors.c|dev/leds.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="contiki-compat"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="lc"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xmacro"/>
