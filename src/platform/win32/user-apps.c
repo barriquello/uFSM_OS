@@ -278,7 +278,7 @@ U_TASK(do_tests)
 		   {
 			   while(1)
 			   {
-				   exit(0);
+				   U_TASK_DELAY(1000);
 			   }
 		   }
 

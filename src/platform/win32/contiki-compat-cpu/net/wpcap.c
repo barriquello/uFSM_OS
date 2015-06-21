@@ -473,7 +473,8 @@ wpcap_init(void)
 
 #else /* __CYGWIN__ */
 /* VC++ build on win32 platform. Currently the platform has no ipv6 support */
-  addr.s_addr = inet_addr(__argv[1]);
+ // addr.s_addr = inet_addr(__argv[1]);
+  addr.s_addr = inet_addr("10.10.10.10");
 #if NETSTACK_CONF_WITH_IPV6
   if((__argv)[1])
   uiplib_ipaddrconv((__argv)[1],(uip_ipaddr_t*) &addr6.s6_addr);

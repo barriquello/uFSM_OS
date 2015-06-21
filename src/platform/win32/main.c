@@ -67,8 +67,31 @@ u_mutex mutex_a, mutex_b;
 #define U_ASSERT_FN
 #include "lib/u-assert.h"
 
+/* Contiki compatibility tests */
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <winsock2.h>
+#include <stdio.h>
+#include <fcntl.h>
 
-int main(void)
+#include "contiki-net.h"
+#include "sys/clock.h"
+
+#if 0
+#include "../../apps/directory/directory-dsc.h"
+#include "../../apps/webbrowser/www-dsc.h"
+#endif
+
+#include "sys/etimer.h"
+#include "net/wpcap-drv.h"
+
+
+PROCINIT(&etimer_process,
+	 &wpcap_process,
+	 &tcpip_process,
+	 &resolv_process);
+
+int main(int argc, char **argv)
 {
 
   U_INIT();  /* Initialize core variables */
@@ -79,8 +102,61 @@ int main(void)
   /* Initialize the a mutex with U_MUTEX_INIT(). */
   U_MUTEX_INIT(&mutex_a,9);
  
+
+  /* Contiki test */
+  process_init();
+  procinit_init();
+  //autostart_start(autostart_processes);
+
+#if !NETSTACK_CONF_WITH_IPV6
+  {
+    uip_ipaddr_t addr;
+    uip_ipaddr(&addr, 10,1,1,1);
+    uip_sethostaddr(&addr);
+    log_message("IP Address:  ", inet_ntoa(*(struct in_addr*)&addr));
+
+    uip_ipaddr(&addr, 255,0,0,0);
+    uip_setnetmask(&addr);
+    log_message("Subnet Mask: ", inet_ntoa(*(struct in_addr*)&addr));
+
+    uip_ipaddr(&addr, 10,1,1,100);
+    uip_setdraddr(&addr);
+    log_message("Def. Router: ", inet_ntoa(*(struct in_addr*)&addr));
+
+    uip_ipaddr(&addr, 10,1,1,1);
+    uip_nameserver_update(&addr, UIP_NAMESERVER_INFINITE_LIFETIME);
+    log_message("DNS Server:  ", inet_ntoa(*(struct in_addr*)&addr));
+  }
+
+#else /* NETSTACK_CONF_WITH_IPV6 */
+#if !UIP_CONF_IPV6_RPL
+#ifdef HARD_CODED_ADDRESS
+  uip_ipaddr_t ipaddr;
+  uiplib_ipaddrconv(HARD_CODED_ADDRESS, &ipaddr);
+  if ((ipaddr.u16[0]!=0) || (ipaddr.u16[1]!=0) || (ipaddr.u16[2]!=0) || (ipaddr.u16[3]!=0)) {
+#if UIP_CONF_ROUTER
+    uip_ds6_prefix_add(&ipaddr, UIP_DEFAULT_PREFIX_LEN, 0, 0, 0, 0);
+#else /* UIP_CONF_ROUTER */
+    uip_ds6_prefix_add(&ipaddr, UIP_DEFAULT_PREFIX_LEN, 0);
+#endif /* UIP_CONF_ROUTER */
+#if !UIP_CONF_IPV6_RPL
+    uip_ds6_set_addr_iid(&ipaddr, &uip_lladdr);
+    uip_ds6_addr_add(&ipaddr, 0, ADDR_AUTOCONF);
+#endif
+  }
+#endif /* HARD_CODED_ADDRESS */
+#endif
+#endif
+
   /* Then we run the utasks using priority scheduling, forever */
-  U_RUN();
+  //U_RUN();
+
+  fflush(stderr);
+  while(1)
+  {
+		 process_run();
+		 etimer_request_poll();
+  }
    
   return 0;
   
@@ -92,7 +168,36 @@ int main(void)
 }
 
 
+/*-----------------------------------------------------------------------------------*/
+void
+debug_printf(char *format, ...)
+{
+  va_list argptr;
+  char buffer[1024];
 
+  va_start(argptr, format);
+  vsprintf(buffer, format, argptr);
+  va_end(argptr);
+
+#if WITH_GUI
+  OutputDebugString(buffer);
+#else /* WITH_GUI */
+  fputs(buffer, stderr);
+#endif /* WITH_GUI */
+}
+/*-----------------------------------------------------------------------------------*/
+void
+uip_log(char *message)
+{
+  debug_printf("%s\n", message);
+}
+/*-----------------------------------------------------------------------------------*/
+void
+log_message(const char *part1, const char *part2)
+{
+  debug_printf("%s%s\n", part1, part2);
+}
+/*-----------------------------------------------------------------------------------*/
 
 
 

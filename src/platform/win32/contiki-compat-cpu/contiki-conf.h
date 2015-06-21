@@ -28,7 +28,7 @@ char* strdup(const char*);
 #endif /* __CYGWIN__ */
 
 
-#define LOG_CONF_ENABLED 0
+#define LOG_CONF_ENABLED 1
 #include "sys/log.h"
 CCIF void debug_printf(char *format, ...);
 

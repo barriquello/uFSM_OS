@@ -33,7 +33,7 @@
 #include "contiki.h"
 #include "sys/procinit.h"
 
-#if 0
+#if 1
 extern const struct process *procinit[];
 
 /*---------------------------------------------------------------------------*/
