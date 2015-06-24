@@ -69,7 +69,7 @@ typedef struct {
  */
 #define U_MUTEX_INIT(s, p)  U_ASSERT_STATIC((p <= MAX_PRIO)); \
                             U_ASSERT_STATIC((p > 0));            \
-                            if(u_task_priority_list[p] != (u08)(-1)) for(;;);   \
+                            u_assert(u_task_priority_list[p] == (u08)(-1));   \
                             u_task_priority_list[p] = MUTEX_PRIO;          \
                             (s)->mtx_prio = p; (s)->orig_prio = 0;    \
                             (s)->count = 0; (s)->waitlist.w[1] = 0; (s)->waitlist.w[0] = 0;

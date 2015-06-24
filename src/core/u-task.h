@@ -152,11 +152,9 @@ typedef struct{
 
 #define U_LOOP_FOREVER()      	   for(;;)                               \
 								   {                                    \
-									 u_task_curr = u_task_next;                   \
+									 u_task_curr = u_task_next;             \
 									 (void) U_TCB[u_task_curr].ptr(); 		\
 									 u_task_main();							\
-									 process_run();	/* contiki-compat */	\
-									 etimer_request_poll();					\
 								   }
                               
 #define U_RUN()            	   U_EnterCritical();                       \
